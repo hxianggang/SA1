@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愛校建言2.0</title>
+    <link rel="stylesheet" href="../php_test/css/user.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&family=LXGW+WenKai+TC:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <div class="fill-up"></div>
+        <div class="logo-group">
+            <a href="main.html" class="logo"></a>
+            <a href="main.html" class="logo-title">愛校建言系統</a>
+        </div>
+        <div class="nav-user">
+            <a href="main.html" class="nav-login">最新消息</a>
+            <a href="vote.html" class="nav-login">最新議題</a>
+            <a href="money.html" class="nav-login">募資專區</a>
+            <a href="user.html" class="nav-login">個人中心</a>
+        </div>
+        <div class="nav-log">
+            <a href="login.html" class="nav-login">登出</a>
+        </div>
+        <div class="fill-up"></div>
+    </div>
+
+    <section class="user-func">
+        <div class="user-func-l"></div>
+        <div class="user-func-m">
+            <div onclick="Scroll('info')">個人資料</div>
+            <div onclick="Scroll('suggest')">提出建言</div>
+            <div onclick="Scroll('history')">過往建言</div>
+        </div>
+    </section>
+
+    <section class="user-div">
+        <div class="user-div-l"></div>
+        <div class="user-div-m">
+            <div class="user-info" id="info">
+                <div class="user-div-title hi1">個人資料</div>
+                <div class="user-info-info">
+                    <div class="info-1">
+                        <div class="info-2">姓名：<p>AQ</p></div>
+                        <div class="info-2">學號：<p>123456789</p></div>
+                    </div>
+                    <div class="info-1">
+                        <div class="info-2">系級：<p>資管四乙</p></div>
+                        <div class="info-2">已發布建言數：<p>75</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-sug" id="suggest">
+                <div class="user-div-title hi2">提出建言</div>
+                <form action="" class="sug-form">
+                    <div class="input-div short"><p>標題：</p><input type="text" placeholder="請輸入建言標題" required></div>
+                    <div class="input-div long"><p>內文：</p><input type="textarea" placeholder="請輸入建言內文" required></div>
+                    <div class="form-r">
+                        <input type="file">
+                        <input type="submit" value="送出建言" class="input-but">
+                    </div>
+                </form>
+            </div>
+            <div class="user-history" id="history">
+                <div class="user-div-title hi3">過往建言</div>
+                <div class="admin-panel">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>編號</th>
+                                <th>標題</th>
+                                <th>內容</th>
+                                <th>狀態</th>
+                                <th>投票數</th>
+                            </tr>
+                        </thead>
+                        <tbody id="suggestionTable">
+                            <tr><td colspan="7">目前沒有建言。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="user-div-r"></div>
+    </section>
+    <script src="../php_test/js/new.js"></script>
+</body>
