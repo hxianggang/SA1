@@ -4,6 +4,8 @@ session_start();  // 啟動 session
 // 引入資料庫連線
 include('db.php');
 
+$error_message = ""; // 初始化錯誤訊息變數
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 取得使用者輸入的帳號和密碼
     $account = $_POST['account'];
@@ -13,24 +15,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $account = $conn->real_escape_string($account);
     $password = $conn->real_escape_string($password);
 
-    // 查詢使用者資料
-    $sql = "SELECT * FROM user WHERE account='$account' AND password='$password'";
+    // 查詢使用者資料，使用 accounts 而不是 account
+    $sql = "SELECT * FROM user WHERE accounts='$account'";
     $result = $conn->query($sql);
 
-    // 檢查帳號密碼是否正確
+    // 檢查帳號是否存在
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // 設定 session 變數
-        $_SESSION['account'] = $user['account'];
-        $_SESSION['role'] = $user['role'];
+        // 使用 password_verify() 檢查密碼是否正確
+        if (password_verify($password, $user['password'])) {
+            // 密碼正確，設定 session 變數
+            $_SESSION['account'] = $user['accounts']; // 修改成 accounts
+            $_SESSION['role'] = $user['role'];
 
-        // 轉跳到主頁或其他頁面
-        header('Location: index.php');
-        exit;
+            // 轉跳到主頁或其他頁面
+            header('Location: index.php');
+            exit;
+        } else {
+            // 密碼錯誤
+            $error_message = "帳號或密碼錯誤";
+        }
     } else {
-        // 若帳號或密碼錯誤
-        echo "帳號或密碼錯誤";
+        // 帳號不存在
+        $error_message = "帳號或密碼錯誤";
     }
 }
 ?>
@@ -51,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --orange2: #ea7500;
             --color-white: #fefefe;
             --color-black: #000;
+            --error-red: #ff4d4d;
         }
 
         * {
@@ -158,6 +167,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login-links a:hover {
             color: var(--orange1);
         }
+
+        /* 錯誤訊息的樣式 */
+        .error-message {
+            color: var(--error-red);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -168,6 +185,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h2>輔仁大學 愛校建言系統</h2>
             <p>請輸入帳號(學號)和密碼登入系統</p>
         </div>
+
+        <!-- 顯示錯誤訊息 -->
+        <?php if ($error_message): ?>
+        <div class="error-message">
+            <?php echo $error_message; ?>
+        </div>
+        <?php endif; ?>
 
         <form method="POST" action="">
             <input type="text" name="account" placeholder="帳號(學號)" required>
