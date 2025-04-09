@@ -54,9 +54,8 @@ $is_logged_in = isset($_SESSION['username']);
             width: auto;
         }
 
-        /* 這是插入圖片的位置，記得替換圖片路徑 */
         .navbar-logo-image {
-            width: 40px; /* 設定圖片大小 */
+            width: 40px;
             height: 40px;
             background-image: url('./images/school.png');
             background-size: contain;
@@ -126,13 +125,53 @@ $is_logged_in = isset($_SESSION['username']);
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
-            padding: 20px;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px; /* 圓角 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+            width: 300px;
+            text-align: center;
+            font-family: '微軟正黑體', arial;
         }
 
+        /* 彈窗內的文字 */
+        #logout-confirm p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 確定與取消按鈕 */
         #logout-confirm button {
-            margin-top: 10px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 10px;
+        }
+
+        /* 確定按鈕 */
+        #logout-confirm button:first-of-type {
+            background-color: var(--orange1);
+            color: var(--color-white);
+        }
+
+        /* 確定按鈕 hover 效果 */
+        #logout-confirm button:first-of-type:hover {
+            background-color: #e64a19; /* 滑鼠懸停變紅色 */
+        }
+
+        /* 取消按鈕 */
+        #logout-confirm button:last-of-type {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        /* 取消按鈕 hover 效果 */
+        #logout-confirm button:last-of-type:hover {
+            background-color: #bbb;
         }
     </style>
 </head>
@@ -143,7 +182,6 @@ $is_logged_in = isset($_SESSION['username']);
     <div class="navbar">
         <!-- logo位置 -->
         <div class="navbar-logo">
-            <!-- 插入圖片，點擊後跳轉到 index.php -->
             <div class="navbar-logo-image" onclick="window.location.href='index.php';"></div>
 
             <a href="index.php" class="navbar-logo-title">愛校建言系統</a>
