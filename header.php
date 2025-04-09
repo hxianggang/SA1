@@ -47,26 +47,23 @@ $is_logged_in = isset($_SESSION['username']);
             justify-content: space-between;
         }
 
+        /* logo區域 */
         .navbar-logo {
             display: flex;
             align-items: center;
             width: auto;
         }
 
-        /* logo位置 */
-        .navbar-logo-link {
-            display: inline-block;
-            width: 50px;
-            height: 100%;
+        /* 這是插入圖片的位置，記得替換圖片路徑 */
+        .navbar-logo-image {
+            width: 40px; /* 設定圖片大小 */
+            height: 40px;
             background-image: url('./images/school.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            white-space: nowrap;
-            text-indent: 100%;
-            overflow: hidden;
+            cursor: pointer;
         }
-
 
         .navbar-logo-title {
             font-size: 20px;
@@ -112,10 +109,9 @@ $is_logged_in = isset($_SESSION['username']);
 
         /* 登出圖示 */
         .logout-icon {
-            width: 20px;
-            height: 20px;
-            background-image: url('./images/images.png');
-            /* 記得替換為你自己的圖片路徑 */
+            width: 30px;
+            height: 30px;
+            background-image: url('./images/logout.png');
             background-size: contain;
             background-repeat: no-repeat;
             margin-left: 10px;
@@ -147,7 +143,9 @@ $is_logged_in = isset($_SESSION['username']);
     <div class="navbar">
         <!-- logo位置 -->
         <div class="navbar-logo">
-            <a href="index.php" class="navbar-logo-link"></a>
+            <!-- 插入圖片，點擊後跳轉到 index.php -->
+            <div class="navbar-logo-image" onclick="window.location.href='index.php';"></div>
+
             <a href="index.php" class="navbar-logo-title">愛校建言系統</a>
         </div>
 
