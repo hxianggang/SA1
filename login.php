@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $account = $conn->real_escape_string($account);
     $password = $conn->real_escape_string($password);
 
-    // 查詢使用者資料，使用 accounts 而不是 account
     $sql = "SELECT * FROM user WHERE accounts='$account'";
     $result = $conn->query($sql);
 
@@ -26,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 使用 password_verify() 檢查密碼是否正確
         if (password_verify($password, $user['password'])) {
             // 密碼正確，設定 session 變數
-            $_SESSION['account'] = $user['accounts']; // 修改成 accounts
+            $_SESSION['username'] = $user['accounts']; // 修改成 accounts
             $_SESSION['role'] = $user['role'];
 
             // 轉跳到主頁或其他頁面
