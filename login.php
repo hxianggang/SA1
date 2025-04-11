@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+ 
 // 引入資料庫連線
 include('db.php');
 
@@ -73,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-image: url('./images/focus2293.jpg');
             background-size: cover;
             background-attachment: fixed;
+            background-position: center center;/*照片置中*/
             height: 100vh;
             display: flex;
             justify-content: center;
