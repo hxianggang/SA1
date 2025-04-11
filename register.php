@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // 插入資料庫
-    $sql = "INSERT INTO user (account, password, email) VALUES ('$account', '$password_hash', '$email')";
+    $sql = "INSERT INTO user (accounts, password, gmail) VALUES ('$account', '$password_hash', '$email')";
 
     if ($conn->query($sql) === TRUE) {
         // 註冊成功後，重定向至登入頁面
