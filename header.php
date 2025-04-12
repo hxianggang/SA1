@@ -188,9 +188,9 @@ $is_logged_in = isset($_SESSION['username']);
 
         <!-- 功能列表 -->
         <div class="navbar-links">
-            <a href="main.html" class="navbar-link">最新消息</a>
-            <a href="vote.html" class="navbar-link">最新議題</a>
-            <a href="money.html" class="navbar-link">募資專區</a>
+            <a href="" class="navbar-link">最新消息</a>
+            <a href="vote.php" class="navbar-link">投票專區</a>
+            <a href="fundraise.php" class="navbar-link">募資專區</a>
 
             <?php if ($is_logged_in): ?>
                 <!-- 顯示學號並跳轉到個人資訊 -->
