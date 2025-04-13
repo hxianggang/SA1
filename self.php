@@ -163,7 +163,7 @@ $stmt->close();
 <body>
     <div class="container">
         <div class="row"><span class="label">學號:</span><span class="value"><?= htmlspecialchars($accounts) ?></span></div>
-        <div class="row"><span class="label">Gmail:</span><span class="value"><?= htmlspecialchars($gmail) ?></span><button class="action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
+        <div class="row"><span class="label">信箱:</span><span class="value"><?= htmlspecialchars($gmail) ?></span><button class="action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
         <div class="row"><span class="label">密碼:</span><span class="value">●●●●●●●●</span><button class="action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
     </div>
 
