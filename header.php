@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $is_logged_in = isset($_SESSION['username']);
 ?>
 
@@ -125,8 +127,10 @@ $is_logged_in = isset($_SESSION['username']);
             transform: translate(-50%, -50%);
             background-color: white;
             padding: 30px;
-            border-radius: 15px; /* 圓角 */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+            border-radius: 15px;
+            /* 圓角 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* 陰影效果 */
             width: 300px;
             text-align: center;
             font-family: '微軟正黑體', arial;
@@ -159,7 +163,8 @@ $is_logged_in = isset($_SESSION['username']);
 
         /* 確定按鈕 hover 效果 */
         #logout-confirm button:first-of-type:hover {
-            background-color: #e64a19; /* 滑鼠懸停變紅色 */
+            background-color: #e64a19;
+            /* 滑鼠懸停變紅色 */
         }
 
         /* 取消按鈕 */
