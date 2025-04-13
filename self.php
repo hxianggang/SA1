@@ -48,6 +48,7 @@ $stmt->close();
 
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <title>個人資料</title>
@@ -98,7 +99,7 @@ $stmt->close();
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
         .modal-content {
@@ -107,7 +108,7 @@ $stmt->close();
             padding: 25px;
             border-radius: 12px;
             width: 400px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .modal-content h3 {
@@ -158,67 +159,77 @@ $stmt->close();
         }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="row"><span class="label">學號:</span><span class="value"><?= htmlspecialchars($accounts) ?></span></div>
-    <div class="row"><span class="label">Gmail:</span><span class="value"><?= htmlspecialchars($gmail) ?></span><button class="action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
-    <div class="row"><span class="label">密碼:</span><span class="value">●●●●●●●●</span><button class="action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
-</div>
-
-<!-- Gmail Modal -->
-<div id="gmailModal" class="modal">
-    <div class="modal-content">
-        <h3>修改 Gmail</h3>
-        <form method="POST">
-            <input type="hidden" name="update_gmail" value="1">
-            <input type="email" name="new_gmail" value="<?= htmlspecialchars($gmail) ?>" required>
-            <div class="modal-actions">
-                <button type="button" class="cancel-button" onclick="document.getElementById('gmailModal').style.display='none'">取消</button>
-                <button type="submit" class="confirm-button">確認</button>
-            </div>
-        </form>
+    <div class="container">
+        <div class="row"><span class="label">學號:</span><span class="value"><?= htmlspecialchars($accounts) ?></span></div>
+        <div class="row"><span class="label">Gmail:</span><span class="value"><?= htmlspecialchars($gmail) ?></span><button class="action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
+        <div class="row"><span class="label">密碼:</span><span class="value">●●●●●●●●</span><button class="action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
     </div>
-</div>
 
-<!-- Password Modal -->
-<div id="passwordModal" class="modal">
-    <div class="modal-content">
-        <h3>修改密碼</h3>
-        <form method="POST">
-            <input type="hidden" name="update_password" value="1">
-            <div class="password-field">
-                <input type="password" name="new_password" id="new_password" placeholder="新密碼" required>
-                <span class="toggle-password" onclick="togglePassword('new_password', this)">👁</span>
-            </div>
-            <div class="password-field">
-                <input type="password" name="confirm_password" id="confirm_password" placeholder="確認新密碼" required>
-                <span class="toggle-password" onclick="togglePassword('confirm_password', this)">👁</span>
-            </div>
-            <div class="modal-actions">
-                <button type="button" class="cancel-button" onclick="document.getElementById('passwordModal').style.display='none'">取消</button>
-                <button type="submit" class="confirm-button">確認</button>
-            </div>
-        </form>
+    <!-- Gmail Modal -->
+    <div id="gmailModal" class="modal">
+        <div class="modal-content">
+            <h3>修改 Gmail</h3>
+            <form method="POST">
+                <input type="hidden" name="update_gmail" value="1">
+                <div style="margin-bottom: 15px;">
+                    <label>原信箱：</label><br>
+                    <span style="font-size: 16px;"><?= htmlspecialchars($gmail) ?></span>
+                </div>
+                <div>
+                    <label for="new_gmail">新信箱：</label>
+                    <input type="email" name="new_gmail" id="new_gmail" placeholder="請輸入新信箱" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-button" onclick="document.getElementById('gmailModal').style.display='none'">取消</button>
+                    <button type="submit" class="confirm-button">確認</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-        }
-    }
 
-    function togglePassword(fieldId, icon) {
-        const field = document.getElementById(fieldId);
-        if (field.type === "password") {
-            field.type = "text";
-            icon.textContent = "🙈";
-        } else {
-            field.type = "password";
-            icon.textContent = "👁";
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3>修改密碼</h3>
+            <form method="POST">
+                <input type="hidden" name="update_password" value="1">
+                <div class="password-field">
+                    <input type="password" name="new_password" id="new_password" placeholder="新密碼" required>
+                    <span class="toggle-password" onclick="togglePassword('new_password', this)">👁</span>
+                </div>
+                <div class="password-field">
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="確認新密碼" required>
+                    <span class="toggle-password" onclick="togglePassword('confirm_password', this)">👁</span>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-button" onclick="document.getElementById('passwordModal').style.display='none'">取消</button>
+                    <button type="submit" class="confirm-button">確認</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
         }
-    }
-</script>
+
+        function togglePassword(fieldId, icon) {
+            const field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+                icon.textContent = "🙈";
+            } else {
+                field.type = "password";
+                icon.textContent = "👁";
+            }
+        }
+    </script>
 </body>
+
 </html>
