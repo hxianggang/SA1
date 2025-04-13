@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_param("si", $new_gmail, $account);
         $stmt->execute();
         $stmt->close();
-        $success = "Gmail 已成功更新！";
+        $success = "信箱已成功更新！";
     }
 
     if (isset($_POST['update_password'])) {
