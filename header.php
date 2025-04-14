@@ -46,6 +46,7 @@ $is_logged_in = isset($_SESSION['username']);
             padding: 0 20px;
             min-width: 1200px;
             justify-content: space-between;
+            border-bottom: 2px solid #fff; /* 加入這一行來加細線 */
         }
 
         /* logo區域 */
@@ -193,7 +194,7 @@ $is_logged_in = isset($_SESSION['username']);
 
         <!-- 功能列表 -->
         <div class="navbar-links">
-            <a href="" class="navbar-link">最新消息</a>
+            <a href="index.php" class="navbar-link">最新消息</a>
             <a href="vote.php" class="navbar-link">投票專區</a>
             <a href="fundraise.php" class="navbar-link">募資專區</a>
 
