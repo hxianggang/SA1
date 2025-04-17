@@ -28,7 +28,6 @@ $topics = [];
 while ($row = $result->fetch_assoc()) {
     $topics[] = $row;
 }
-
 $stmt->close();
 
 // 確認總共的投票數
@@ -49,81 +48,13 @@ $total_pages = ceil($total_voted / $items_per_page);
 <head>
     <meta charset="UTF-8">
     <title>查看已投票議題</title>
-    <style>
-        body {
-            font-family: '微軟正黑體', arial;
-            background-color: #fffdf7;
-            margin: 0;
-            padding-top: 80px;
-            display: flex;
-        }
-
-        /* 側邊欄 (sidebar) 設計 */
-        .sidebar {
-            width: 200px;
-            background-color: var(--orange1);
-            padding: 20px;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            top: 64px;
-            left: 0;
-            z-index: 10;
-        }
-
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px;
-            text-decoration: none;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .sidebar a:hover {
-            background-color: #ff5700;
-        }
-
-        /* 右側內容區域 */
-        .container {
-            margin-left: 220px;
-            max-width: 700px;
-            padding: 30px;
-        }
-
-        .row {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .label {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .value {
-            display: inline-block;
-            min-width: 150px;
-        }
-
-        .action-button {
-            background-color: #ff8000;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="viewvoted_body">
 
     <!-- 側邊欄 -->
-    <div class="sidebar">
+    <div class="viewvoted_sidebar">
         <h2>個人中心</h2>
         <a href="self.php">個人設置</a>
         <a href="view_voted_topics.php">查看已投票議題</a>
@@ -131,20 +62,20 @@ $total_pages = ceil($total_voted / $items_per_page);
     </div>
 
     <!-- 右側內容區域 -->
-    <div class="container">
+    <div class="viewvoted_container">
         <h3>已投票議題</h3>
         <?php if (count($topics) > 0): ?>
             <?php foreach ($topics as $topic): ?>
-                <div class="row">
-                    <span class="label">議題標題：</span>
-                    <span class="value"><?= htmlspecialchars($topic['e_title']) ?></span>
+                <div class="viewvoted_row">
+                    <span class="viewvoted_label">議題標題：</span>
+                    <span class="viewvoted_value"><?= htmlspecialchars($topic['e_title']) ?></span>
                     <div><strong>內容：</strong><?= htmlspecialchars($topic['e_text']) ?></div>
                     <div><strong>時間：</strong><?= htmlspecialchars($topic['e_time']) ?></div>
                 </div>
             <?php endforeach; ?>
 
             <!-- 分頁 -->
-            <div class="pagination">
+            <div class="viewvoted_pagination">
                 <?php if ($current_page > 1): ?>
                     <a href="?page=<?= $current_page - 1 ?>">上一頁</a>
                 <?php endif; ?>
@@ -154,7 +85,6 @@ $total_pages = ceil($total_voted / $items_per_page);
                 <?php endif; ?>
                 <span>第 <?= $current_page ?> 頁 / 共 <?= $total_pages ?> 頁</span>
             </div>
-
         <?php else: ?>
             <div style="color: gray;">您尚未投票過任何議題。</div>
         <?php endif; ?>

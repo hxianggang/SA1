@@ -52,149 +52,12 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <title>個人資料</title>
-    <style>
-        body {
-            font-family: '微軟正黑體', arial;
-            background-color: #fffdf7;
-            margin: 0;
-            padding-top: 80px;
-            display: flex;
-        }
-
-        /* 側邊欄 (sidebar) 設計 */
-        .sidebar {
-            width: 200px;
-            background-color: var(--orange1);
-            padding: 20px;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            top: 64px;
-            left: 0;
-            z-index: 10;
-        }
-
-        .sidebar a {
-            display: block;
-            color: white;
-            padding: 10px;
-            text-decoration: none;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .sidebar a:hover {
-            background-color: #ff5700;
-        }
-
-        /* 右側內容區域 */
-        .container {
-            margin-left: 220px;
-            max-width: 700px;
-            padding: 30px;
-        }
-
-        .row {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .label {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .value {
-            display: inline-block;
-            min-width: 150px;
-        }
-
-        .action-button {
-            background-color: #ff8000;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* Modal 彈窗樣式 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 25px;
-            border-radius: 12px;
-            width: 400px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-content h3 {
-            margin-bottom: 20px;
-        }
-
-        .modal-content input {
-            width: calc(100% - 40px);
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .password-field {
-            display: flex;
-            align-items: center;
-        }
-
-        .toggle-password {
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            user-select: none;
-        }
-
-        .modal-actions {
-            text-align: right;
-        }
-
-        .modal-actions button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-
-        .confirm-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .cancel-button {
-            background-color: #e53935;
-            color: white;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-
+<body class="self_body">
     <!-- 側邊欄 -->
-    <div class="sidebar">
+    <div class="self_sidebar">
         <h2>個人中心</h2>
         <a href="self.php">個人設置</a>
         <a href="view_voted_topics.php">查看已投票議題</a>
@@ -202,15 +65,15 @@ $stmt->close();
     </div>
 
     <!-- 右側內容區域 -->
-    <div class="container">
-        <div class="row"><span class="label">學號:</span><span class="value"><?= htmlspecialchars($accounts) ?></span></div>
-        <div class="row"><span class="label">信箱:</span><span class="value"><?= htmlspecialchars($gmail) ?></span><button class="action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
-        <div class="row"><span class="label">密碼:</span><span class="value">●●●●●●●●</span><button class="action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
+    <div class="self_container">
+        <div class="self_row"><span class="self_label">學號:</span><span class="self_value"><?= htmlspecialchars($accounts) ?></span></div>
+        <div class="self_row"><span class="self_label">信箱:</span><span class="self_value"><?= htmlspecialchars($gmail) ?></span><button class="self_action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
+        <div class="self_row"><span class="self_label">密碼:</span><span class="self_value">●●●●●●●●</span><button class="self_action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
     </div>
 
     <!-- Gmail Modal -->
-    <div id="gmailModal" class="modal">
-        <div class="modal-content">
+    <div id="gmailModal" class="self_modal">
+        <div class="self_modal-content">
             <h3>修改 Gmail</h3>
             <form method="POST">
                 <input type="hidden" name="update_gmail" value="1">
@@ -222,31 +85,31 @@ $stmt->close();
                     <label for="new_gmail">新信箱：</label>
                     <input type="email" name="new_gmail" id="new_gmail" placeholder="請輸入新信箱" required>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="cancel-button" onclick="document.getElementById('gmailModal').style.display='none'">取消</button>
-                    <button type="submit" class="confirm-button">確認</button>
+                <div class="self_modal-actions">
+                    <button type="button" class="self_cancel-button" onclick="document.getElementById('gmailModal').style.display='none'">取消</button>
+                    <button type="submit" class="self_confirm-button">確認</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 密碼 Modal -->
-    <div id="passwordModal" class="modal">
-        <div class="modal-content">
+    <div id="passwordModal" class="self_modal">
+        <div class="self_modal-content">
             <h3>修改密碼</h3>
             <form method="POST">
                 <input type="hidden" name="update_password" value="1">
-                <div class="password-field">
+                <div class="self_password-field">
                     <input type="password" name="new_password" id="new_password" placeholder="新密碼" required>
-                    <span class="toggle-password" onclick="togglePassword('new_password', this)">👁</span>
+                    <span class="self_toggle-password" onclick="togglePassword('new_password', this)">👁</span>
                 </div>
-                <div class="password-field">
+                <div class="self_password-field">
                     <input type="password" name="confirm_password" id="confirm_password" placeholder="確認新密碼" required>
-                    <span class="toggle-password" onclick="togglePassword('confirm_password', this)">👁</span>
+                    <span class="self_toggle-password" onclick="togglePassword('confirm_password', this)">👁</span>
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="cancel-button" onclick="document.getElementById('passwordModal').style.display='none'">取消</button>
-                    <button type="submit" class="confirm-button">確認</button>
+                <div class="self_modal-actions">
+                    <button type="button" class="self_cancel-button" onclick="document.getElementById('passwordModal').style.display='none'">取消</button>
+                    <button type="submit" class="self_confirm-button">確認</button>
                 </div>
             </form>
         </div>
@@ -255,7 +118,7 @@ $stmt->close();
     <script>
         // 顯示/隱藏彈窗
         window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
+            if (event.target.classList.contains('self_modal')) {
                 event.target.style.display = "none";
             }
         }
@@ -271,7 +134,6 @@ $stmt->close();
             }
         }
     </script>
-
 </body>
 
 </html>
