@@ -3,35 +3,42 @@ session_start();  // 啟動 session
 
 include('db.php');
 
-$error_message = "";
-$account = $email = "";
+$error_message = "";  // 儲存錯誤訊息
+$account = $email = "";  // 初始化變數
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $account = $_POST['account'];
     $password = $_POST['password'];
     $email = $_POST['email'];
 
+    // 防止 SQL 注入
     $account = $conn->real_escape_string($account);
     $password = $conn->real_escape_string($password);
     $email = $conn->real_escape_string($email);
 
+    // 檢查帳號是否已註冊
     $sql_account_check = "SELECT * FROM user WHERE accounts = ?";
     $stmt = $conn->prepare($sql_account_check);
     $stmt->bind_param('s', $account);
     $stmt->execute();
     $result_account = $stmt->get_result();
 
+    // 檢查電子信箱是否已註冊
     $sql_email_check = "SELECT * FROM user WHERE gmail = ?";
     $stmt = $conn->prepare($sql_email_check);
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result_email = $stmt->get_result();
 
+    // 設置錯誤訊息
     if ($result_account->num_rows > 0) {
+        // 如果帳號已經註冊
         $error_message = "該帳號已被註冊";
     } elseif ($result_email->num_rows > 0) {
+        // 如果信箱已經註冊
         $error_message = "該電子信箱已被註冊";
     } else {
+        // 密碼加密並插入資料庫
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO user (accounts, password, gmail) VALUES ('$account', '$password_hash', '$email')";
         if ($conn->query($sql) === TRUE) {
@@ -83,4 +90,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 
-</html>
+</html> 

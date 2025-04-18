@@ -435,7 +435,7 @@ body {
 
 /* ================= register：錯誤訊息 ================= */
 .register_error-message {
-    color: var(--error-red);
+    color: red !important;
     text-align: center;
     margin-bottom: 20px;
     font-size: 16px;
@@ -458,6 +458,7 @@ body {
 .register_links a:hover {
     color: var(--orange1);
 }
+
 
 /* ================= self.php：基本框架 ================= */
 .self_body {
