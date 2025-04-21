@@ -26,7 +26,6 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言系統</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script> <!-- 引入 JavaScript 檔案 -->
 </head>
 
 <body>
@@ -65,6 +64,8 @@ $result = $stmt->get_result();
         <?php include('addmessage.php'); ?> <!-- 顯示發佈建言按鈕 -->
     <?php endif; ?>
 
+    <!-- JavaScript 載入 -->
+    <script src="script.js"></script>
 </body>
 
 </html>

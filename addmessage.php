@@ -23,15 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param('sss', $title, $content, $user_id);
 
     // 執行插入操作
-    if ($stmt->execute()) {
-        echo "建言發佈成功!";
-    } else {
-        echo "發佈失敗，請稍後再試。";
-    }
+    $stmt->execute();
 
     // 關閉連接
     $stmt->close();
     $conn->close();
+
+    // 重定向回到首頁或其他頁面
+    header("Location: index.php");
+    exit();
 }
 ?>
 
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <button class="addmes_add-button-right-bottom" onclick="openForm()">+</button>
 
 <!-- 用來顯示發佈建言的表單 -->
-<div id="formContainer" class="addmes_form-container-popup">
+<div id="formContainer" class="addmes_form-container-popup" style="display:none;">
     <form id="suggestionForm" method="POST">
         <label for="title">標題:</label>
         <input type="text" id="title" name="title" required><br><br>
