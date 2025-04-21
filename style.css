@@ -743,3 +743,71 @@ body {
 .viewvoted_pagination {
     margin-top: 20px;
 }
+
+/* addmessage.php 專用樣式 */
+/* 固定右下角的 + 按鈕 */
+.addmes_add-button-right-bottom {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #ff5733;
+    color: white;
+    font-size: 30px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 表單容器，預設隱藏 */
+.addmes_form-container-popup {
+    display: none;
+    /* 預設隱藏 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+/* 表單內部結構 */
+.addmes_form-container-popup form {
+    display: flex;
+    flex-direction: column;
+}
+
+.addmes_form-container-popup label {
+    margin-bottom: 8px;
+}
+
+.addmes_form-container-popup input,
+.addmes_form-container-popup textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 提交按鈕與取消按鈕的樣式 */
+.addmes_form-container-popup button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.addmes_form-container-popup button[type="button"] {
+    background-color: #ccc;
+}
