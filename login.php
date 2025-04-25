@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// 引入資料庫連線
 include('db.php');
 
 $error_message = ""; // 初始化錯誤訊息變數
