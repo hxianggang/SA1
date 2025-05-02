@@ -59,8 +59,11 @@ $result = $stmt->get_result();
     </form>
 
     <!-- 檢查是否登入，若已登入則顯示 + 按鈕 -->
-    <?php if (isset($_SESSION['name'])): ?>
-        <?php include('addmessage.php'); ?> <!-- 顯示發佈建言按鈕 -->
+    <?php if ($_SESSION['permissions'] == 1): ?>
+        <?php include('addmessage.php'); ?> <!-- 顯示新增建言按鈕 -->
+    <?php endif; ?>
+    <?php if ($_SESSION['permissions'] == 2): ?>
+        <?php include('addannouncement.php'); ?> <!-- 顯示發佈公告按鈕 -->
     <?php endif; ?>
 
     <!-- JavaScript 載入 -->
