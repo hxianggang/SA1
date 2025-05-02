@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('header.php');
 include('db.php');
 
@@ -60,7 +59,7 @@ $result = $stmt->get_result();
     </form>
 
     <!-- 檢查是否登入，若已登入則顯示 + 按鈕 -->
-    <?php if (isset($_SESSION['username'])): ?>
+    <?php if (isset($_SESSION['name'])): ?>
         <?php include('addmessage.php'); ?> <!-- 顯示發佈建言按鈕 -->
     <?php endif; ?>
 
