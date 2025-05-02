@@ -1,6 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
 }
@@ -8,7 +7,7 @@ if (!isset($_SESSION['username'])) {
 include("db.php");
 include("header.php");
 
-$account = $_SESSION['username'];
+$account = $_SESSION['name'];
 $warning = "";
 $success = "";
 
