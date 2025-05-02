@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
 }
@@ -7,7 +7,7 @@ if (!isset($_SESSION['username'])) {
 include("db.php");
 include("header.php");
 
-$account = $_SESSION['username'];
+$account = $_SESSION['name'];
 $items_per_page = 5;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $items_per_page;
