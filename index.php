@@ -43,9 +43,19 @@ $result = $stmt->get_result();
 
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="index_main-news-mess" onclick="window.location.href='post.php?id=<?php echo $row['id']; ?>'">
-                    <div class="index_mess-date"><?php echo $row['date']; ?></div>
-                    <div class="index_mess-title"><?php echo $row['title']; ?></div>
+                <div class="index_main-news-mess">
+                    <div class="index-mess-left" onclick="window.location.href='post.php?id=<?php echo $row['id']; ?>'">
+                        <div class="index_mess-date"><?php echo $row['date']; ?></div>
+                        <div class="index_mess-title"><?php echo $row['title']; ?></div>
+                    </div>
+                    <div class="index-mess-right">
+                        <?php
+                        if ($row['accounts'] == $_SESSION['acc']) {
+                            echo "<div class='but-edit' onclick=\"window.location.href='edit.php?id={$row['id']}'\">修改</div>";
+                            echo "<div class='but-delete' onclick=\"window.location.href='delete.php?id={$row['id']}'\">刪除</div>";
+                        }                        
+                        ?>
+                    </div>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
