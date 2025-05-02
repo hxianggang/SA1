@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$is_logged_in = isset($_SESSION['username']);
+$is_logged_in = isset($_SESSION['name']);
 ?>
 
 <!DOCTYPE html>
@@ -28,13 +28,15 @@ $is_logged_in = isset($_SESSION['username']);
 
         <!-- 功能列表 -->
         <div class="header_links">
-            <a href="index.php" class="header_link">最新消息</a>
+            <?php if ($is_logged_in){ ?>
+            <a href="index.php" class="header_link">提出建言</a>
             <a href="vote.php" class="header_link">投票專區</a>
+            <?php } ?>
             <a href="fundraise.php" class="header_link">募資專區</a>
 
             <?php if ($is_logged_in): ?>
                 <!-- 顯示學號並跳轉到個人資訊 -->
-                <a href="self.php" class="header_link"><?php echo $_SESSION['username']; ?></a>
+                <a href="self.php" class="header_link"><?php echo $_SESSION['name']; ?></a>
                 <!-- 顯示登出圖示 -->
                 <div class="header_logout-icon" onclick="showLogoutConfirm()"></div>
             <?php else: ?>
