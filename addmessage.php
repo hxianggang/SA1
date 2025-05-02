@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();  // 只在 session 尚未啟動時才呼叫 session_start()
 }
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['name'])) {
     // 如果未登入，重定向到登入頁面
     header('Location: login.php');
     exit();
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 取得表單資料
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $user_id = $_SESSION['username'];
+    $user_id = $_SESSION['name'];
 
     // 連接資料庫
     include('db.php');
