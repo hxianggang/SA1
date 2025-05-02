@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // 檢查是否已登入
 if (session_status() == PHP_SESSION_NONE) {
     session_start();  // 只在 session 尚未啟動時才呼叫 session_start()
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 如果成功，設定提示訊息為成功
         $message = '建言發佈成功!';
         // 回到首頁或其他頁面
-        header("Location: index.php");
+        header("Location: process_message.php");
         exit();
     } else {
         // 如果失敗，設定提示訊息為失敗
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- 發佈建言的表單 -->
 <div id="formContainer" class="addmes_form-container-popup" style="display:none;">
-    <form id="suggestionForm" method="POST" action="">
+    <form id="suggestionForm" method="POST" action="process_message.php">
         <label for="title">標題:</label>
         <input type="text" id="title" name="title" required><br><br>
 
@@ -65,3 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="button" onclick="closeForm()">取消</button>
     </form>
 </div>
+
+<?php
+ob_end_flush(); // ⭐⭐ 結尾補上這行
+?>
