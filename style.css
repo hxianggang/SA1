@@ -811,3 +811,77 @@ body {
 .addmes_form-container-popup button[type="button"] {
     background-color: #ccc;
 }
+
+/*公告頁面專區*/
+.href-link{
+    top: 90px;
+    left: 15%;
+    display: flex;
+    font-weight: 500;
+}
+.href-link a{
+    color: var(--font-black);
+}
+.message-page{
+    position: absolute;
+    width: 70%;
+    height: 700px;
+    top: 100px;
+    left: 15%;
+    display: flex;
+}
+.message-page-left{
+    width: 60%;
+}
+.message-page-right{
+    width: 40%;
+    height: 100%;
+    border-left: 1px solid var(--orange3);
+}
+.back-href{
+    color: var(--font-red);
+    height: 25px;
+    border-bottom: 1px dashed var(--orange3);
+}
+.back-href p{
+    transition: all.3s;
+}
+.back-href p:hover{
+    color: var(--font-red-hover);
+    transform: translateY(-3px);
+}
+.message-title{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+.date-person{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+.message-date{
+    font-size: 12px;
+}
+.message-person{
+    font-size: 12px;
+    left: 15px;
+    color: var(--font-red);
+}
+.message-info{
+    height: 500px;
+    padding: 10px 15px 0;
+}
+.message-docu{
+    background-color: var(--orange3);
+    margin: 0 0 0 15px;
+    width: calc(100% - 30px);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
