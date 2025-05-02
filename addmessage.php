@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 取得表單資料
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $user_id = $_SESSION['name'];
+    $user_id = $_SESSION['acc'];
 
     // 連接資料庫
     include('db.php');
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- 發佈建言的表單 -->
 <div id="formContainer" class="addmes_form-container-popup" style="display:none;">
-    <form id="suggestionForm" method="POST">
+    <form id="suggestionForm" method="POST" action="">
         <label for="title">標題:</label>
         <input type="text" id="title" name="title" required><br><br>
 
