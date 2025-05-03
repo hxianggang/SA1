@@ -218,10 +218,49 @@ body {
     margin: 10px 0;
     border-bottom: 1px solid #f1f1f1;
     cursor: pointer;
+    display: flex;
 }
 
 .index_main-news-mess:hover {
     background-color: #f9f9f9;
+}
+
+.index-mess-left{
+    width: 80%;
+    height: 100%;
+}
+
+.index-mess-right{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.but-edit{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: var(--orange1);
+    font-size: 18px;
+    font-weight: 600;
+    transition: all .3s;
+}
+
+.but-edit:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.but-delete{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: red;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all .3s;
+}
+
+.but-delete:hover{
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .index_mess-date {

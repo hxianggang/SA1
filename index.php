@@ -1,3 +1,5 @@
+<!-- 0503 AQ 把公告的CRUD接完、修搜尋框-->
+
 <?php
 include('header.php');
 include('db.php');
@@ -5,16 +7,13 @@ include('db.php');
 // 處理搜尋功能
 $search_keyword = '';
 if (isset($_GET['search'])) {
-    $search_keyword = $_GET['search'];
+    $search_keyword = mysqli_real_escape_string($conn, $_GET['search']);
+    $sql = "SELECT * FROM announcements WHERE title LIKE '%$search_keyword%' OR content LIKE '%$search_keyword%' ORDER BY date DESC";
+} else {
+    $sql = "SELECT * FROM announcements ORDER BY date DESC";
 }
 
-// 查詢公告
-$sql = "SELECT * FROM announcements WHERE title LIKE ? OR content LIKE ? ORDER BY date DESC";
-$stmt = $conn->prepare($sql);
-$search_term = "%" . $search_keyword . "%";
-$stmt->bind_param('ss', $search_term, $search_term);
-$stmt->execute();
-$result = $stmt->get_result();
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +29,13 @@ $result = $stmt->get_result();
 <body>
 
     <!-- 搜尋框 -->
-    <div class="index_search-block">
+    <form id="search-form" method="GET" class="index_search-block">
         <div class="index_search-box">
-            <input type="text" class="index_search-bar" placeholder="請輸入關鍵字" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>" form="search-form">
-            <div class="index_search-but" onclick="document.getElementById('search-form').submit();">搜尋</div>
+            <input type="text" class="index_search-bar" placeholder="請輸入關鍵字" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>">
+            <button type="submit" class="index_search-but">搜尋</button>
         </div>
-    </div>
+    </form>
+
 
     <!-- 公告列表 -->
     <div class="index_main-news">
@@ -44,17 +44,16 @@ $result = $stmt->get_result();
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="index_main-news-mess">
-                    <div class="index-mess-left" onclick="window.location.href='post.php?id=<?php echo $row['id']; ?>'">
+                    <div class="index-mess-left" onclick="window.location.href='ann_post.php?id=<?php echo $row['id']; ?>'">
                         <div class="index_mess-date"><?php echo $row['date']; ?></div>
                         <div class="index_mess-title"><?php echo $row['title']; ?></div>
                     </div>
                     <div class="index-mess-right">
                         <?php
-                        if ($row['accounts'] == $_SESSION['acc']) {
-                            echo "<div class='but-edit' onclick=\"window.location.href='edit.php?id={$row['id']}'\">修改</div>";
-                            echo "<div class='but-delete' onclick=\"window.location.href='delete.php?id={$row['id']}'\">刪除</div>";
-                        }                        
-                        ?>
+                        if ($row['accounts'] == $_SESSION['acc']) { ?>
+                            <div class='but-edit' onclick="window.location.href='ann_edit.php?id=<?php echo $row['id']; ?>'">修改</div>
+                            <div class='but-delete' onclick="window.location.href='ann_delete.php?id=<?php echo $row['id']; ?>'">刪除</div>
+                        <?php } ?>
                     </div>
                 </div>
             <?php endwhile; ?>
@@ -68,12 +67,9 @@ $result = $stmt->get_result();
         <input type="text" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>">
     </form>
 
-    <!-- 檢查是否登入，若已登入則顯示 + 按鈕 -->
-    <?php if ($_SESSION['permissions'] == 1): ?>
-        <?php include('addmessage.php'); ?> <!-- 顯示新增建言按鈕 -->
-    <?php endif; ?>
+    <!-- 只有學生身分才顯示新增公告按鈕 -->
     <?php if ($_SESSION['permissions'] == 2): ?>
-        <?php include('addannouncement.php'); ?> <!-- 顯示發佈公告按鈕 -->
+        <?php include('ann_add.php'); ?>
     <?php endif; ?>
 
     <!-- JavaScript 載入 -->
