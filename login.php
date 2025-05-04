@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include('db.php');
 
 $error_message = ""; // 初始化錯誤訊息變數

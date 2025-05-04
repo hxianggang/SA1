@@ -3,7 +3,6 @@
 <?php
 include('header.php');
 include('db.php');
-
 // 處理搜尋功能
 $search_keyword = '';
 if (isset($_GET['search'])) {
