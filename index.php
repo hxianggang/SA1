@@ -1,3 +1,5 @@
+<!-- 0503 AQ 把公告的CRUD接完、修搜尋框-->
+
 <?php
 include('header.php');
 include('db.php');
@@ -47,8 +49,8 @@ $result = mysqli_query($conn, $sql);
                         <div class="index_mess-title"><?php echo $row['title']; ?></div>
                     </div>
                     <div class="index-mess-right">
-                        <?php
-                        if ($row['accounts'] == $_SESSION['acc']) { ?>
+                    <?php
+                        if (isset($_SESSION['acc']) && $row['accounts'] == $_SESSION['acc']) { ?>
                             <div class='but-edit' onclick="window.location.href='ann_edit.php?id=<?php echo $row['id']; ?>'">修改</div>
                             <div class='but-delete' onclick="window.location.href='ann_delete.php?id=<?php echo $row['id']; ?>'">刪除</div>
                         <?php } ?>
@@ -66,9 +68,10 @@ $result = mysqli_query($conn, $sql);
     </form>
 
     <!-- 只有學生身分才顯示新增公告按鈕 -->
-    <?php if ($_SESSION['permissions'] == 2): ?>
-        <?php include('ann_add.php'); ?>
-    <?php endif; ?>
+    <?php
+        if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {
+            include('ann_add.php');
+        } ?>
 
     <!-- JavaScript 載入 -->
     <script src="script.js"></script>
