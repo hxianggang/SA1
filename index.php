@@ -1,5 +1,3 @@
-<!-- 0503 AQ 把公告的CRUD接完、修搜尋框-->
-
 <?php
 include('header.php');
 include('db.php');

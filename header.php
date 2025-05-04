@@ -1,5 +1,3 @@
-<!-- 0503 AQ 導覽列依身分別有區別-->
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();

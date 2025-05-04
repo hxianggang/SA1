@@ -1,5 +1,3 @@
-<!--0503 AQ 撰寫建言瀏覽及投票審核-->
-
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">

@@ -1,5 +1,3 @@
-<!-- 0503 AQ 撰寫建言列表-->
-
 <?php
 include('header.php');
 include('db.php');

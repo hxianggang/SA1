@@ -1,5 +1,3 @@
-<!--0503 AQ 撰寫修改公告-->
-
 <?php
     include('db.php');
     $post_id=$_GET['id'];

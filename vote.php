@@ -1,5 +1,3 @@
-<!-- 0503 AQ 撰寫投票介面-->
-
 <?php
 include('header.php');
 include('db.php');

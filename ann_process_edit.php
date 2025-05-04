@@ -1,5 +1,3 @@
-<!--0503 AQ 撰寫修改公告-->
-
 <?php
     $id=$_POST['id'];
     $title=$_POST['title'];
