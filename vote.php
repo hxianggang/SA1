@@ -41,11 +41,20 @@ $result = mysqli_query($conn, $sql);
         <div class="index_main-news">
             <div class="index_main-news-title">投票專區</div>
                 <?php if ($result->num_rows > 0){ ?>
-                    <?php while ($row = $result->fetch_assoc()){ 
+                    <?php 
+                    while ($row = $result->fetch_assoc()) { 
                         $sql4 = "SELECT * FROM audit WHERE e_id = '{$row['e_id']}'";
                         $result4 = mysqli_query($conn, $sql4);
                         $row4 = mysqli_fetch_assoc($result4);
-                        if(isset($row4['a_acc']) == FALSE){?>
+
+                        // 新增：時間判斷
+                        $eventDate = new DateTime($row['e_time']);
+                        $now = new DateTime();
+                        $interval = $eventDate->diff($now);
+                        $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
+
+                        if (!isset($row4['a_acc']) && !$isOverThreeMonths) {
+                    ?>
                         <div class="index_main-news-mess">
                             <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?php echo $row['e_id']; ?>'">
                                 <div class="index_mess-date"><?php echo $row['e_time']; ?></div>
@@ -63,7 +72,11 @@ $result = mysqli_query($conn, $sql);
                             </div>
                             </div>
                         </div>
-                    <?php }}  ?>
+                    <?php 
+                        } 
+                    }  
+                    ?>
+
                 <?php } ?>
             </div>       
         </div>

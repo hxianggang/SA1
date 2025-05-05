@@ -58,27 +58,37 @@ $result = mysqli_query($conn, $sql);
                             <?php
                             // 查看現況
                             ?>
-                            <div class="index_mess-date">
-                                <?php
-                                $e_id = $row['e_id'];
-                                $sqla = "SELECT * FROM audit WHERE e_id = $e_id";
-                                $resulta = mysqli_query($conn, $sqla);
-                                $rowa = mysqli_fetch_assoc($resulta);
-                                if (isset($rowa['a_acc'])){
-                                    if ($rowa['situation'] == 1){
-                                        echo "已審核通過";
-                                    }else if ($rowa['situation'] == 2){
-                                        echo "已否決建言";
-                                    }
-                                }else if(!isset($rowa['a_acc'])){
-                                    $sql3 = "SELECT COUNT(*) AS vote_count FROM vote WHERE e_id = '{$row['e_id']}'";
-                                    $result3 = mysqli_query($conn, $sql3);
-                                    $row3 = mysqli_fetch_assoc($result3);
-                                    echo "總投票數：",$row3['vote_count'];
-                                }else if ($isOverThreeMonths){ 
-                                    echo "已結案待審核";
-                                }?>
-                            </div>
+                                <div class="index_mess-date">
+                                    <?php
+                                    $e_id = $row['e_id'];
+                                    $sqla = "SELECT * FROM audit WHERE e_id = $e_id";
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_assoc($resulta);
+                                    if ($isOverThreeMonths) {
+                                        if (isset($rowa['a_acc'])){
+                                            if ($rowa['situation'] == 1){
+                                                echo "已審核通過";
+                                            }else if ($rowa['situation'] == 2){
+                                                echo "已否決建言";
+                                            }
+                                        }else{
+                                            echo "已結束待審核";
+                                        }
+                                    }else{
+                                        if (isset($rowa['a_acc'])){
+                                            if ($rowa['situation'] == 1){
+                                                echo "已審核通過";
+                                            }else if ($rowa['situation'] == 2){
+                                                echo "已否決建言";
+                                            }
+                                        }else if(!isset($rowa['a_acc'])){
+                                            $sql3 = "SELECT COUNT(*) AS vote_count FROM vote WHERE e_id = '{$row['e_id']}'";
+                                            $result3 = mysqli_query($conn, $sql3);
+                                            $row3 = mysqli_fetch_assoc($result3);
+                                            echo "總投票數：",$row3['vote_count'];
+                                        }
+                                    }?>
+                                </div>
                             </div>
                         </div>
                         <?php }  ?>
