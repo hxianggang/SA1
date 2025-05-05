@@ -1,3 +1,5 @@
+<!-- 0503 AQ 撰寫建言列表-->
+
 <?php
 include('header.php');
 include('db.php');
@@ -41,14 +43,44 @@ $result = mysqli_query($conn, $sql);
         <div class="index_main-news">
             <div class="index_main-news-title">歷史提出建言</div>
                 <?php if ($result->num_rows > 0){ ?>
-                    <?php while ($row = $result->fetch_assoc()){ ?>
+                    <?php while ($row = $result->fetch_assoc()){ 
+                        $eventDate = new DateTime($row['e_time']);
+                        $now = new DateTime();
+                        $interval = $eventDate->diff($now);
+                        $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;?>
                         <?php if ($_SESSION['acc'] == $row['accounts']){ ?> <!--只有自己提的才能看到-->
                             <div class="index_main-news-mess">
-                                <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?php echo $row['e_id']; ?>'">
-                                    <div class="index_mess-date"><?php echo $row['e_time']; ?></div>
-                                    <div class="index_mess-title"><?php echo $row['e_title']; ?></div>
-                                </div>
+                            <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?php echo $row['e_id']; ?>'">
+                                <div class="index_mess-date"><?php echo $row['e_time']; ?></div>
+                                <div class="index_mess-title"><?php echo $row['e_title']; ?></div>
                             </div>
+                            <div class="index-mess-right">
+                            <?php
+                            // 查看現況
+                            ?>
+                            <div class="index_mess-date">
+                                <?php
+                                $e_id = $row['e_id'];
+                                $sqla = "SELECT * FROM audit WHERE e_id = $e_id";
+                                $resulta = mysqli_query($conn, $sqla);
+                                $rowa = mysqli_fetch_assoc($resulta);
+                                if (isset($rowa['a_acc'])){
+                                    if ($rowa['situation'] == 1){
+                                        echo "已審核通過";
+                                    }else if ($rowa['situation'] == 2){
+                                        echo "已否決建言";
+                                    }
+                                }else if(!isset($rowa['a_acc'])){
+                                    $sql3 = "SELECT COUNT(*) AS vote_count FROM vote WHERE e_id = '{$row['e_id']}'";
+                                    $result3 = mysqli_query($conn, $sql3);
+                                    $row3 = mysqli_fetch_assoc($result3);
+                                    echo "總投票數：",$row3['vote_count'];
+                                }else if ($isOverThreeMonths){ 
+                                    echo "已結案待審核";
+                                }?>
+                            </div>
+                            </div>
+                        </div>
                         <?php }  ?>
                     <?php } ?>
                 <?php } ?>
