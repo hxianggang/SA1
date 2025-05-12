@@ -85,6 +85,10 @@ $result = mysqli_query($conn, $sql);
         <input type="text" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>">
     </form>
 
+    <!-- 只有學生身分才顯示新增建言按鈕 -->
+    <?php if ($_SESSION['permissions'] == 1): ?>
+        <?php include('eve_add.php'); ?>
+    <?php endif; ?>
 
     <!-- JavaScript 載入 -->
     <script src="script.js"></script>
