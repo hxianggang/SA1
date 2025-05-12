@@ -29,5 +29,5 @@ if (!isset($_SESSION['name'])) {
 </div>
 
 <?php
-ob_end_flush(); 
+ob_end_flush();
 ?>

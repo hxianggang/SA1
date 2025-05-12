@@ -20,14 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         die('請選擇有效的選項');
     }
-    if(mysqli_query($conn,$sql)){
+    if (mysqli_query($conn, $sql)) {
         $targetPage = 'event.php';
         header('Location: ' . $targetPage);
-    exit();mysqli_close($conn);
-    }else{
+        exit();
+        mysqli_close($conn);
+    } else {
 ?>
-    <script> alert("新增失敗"); history.back(); </script>
+        <script>
+            alert("新增失敗");
+            history.back();
+        </script>
 <?php
-    }}
-    
+    }
+}
+
 ?>

@@ -12,15 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $e_title = $_POST['e_title'];
     $e_text = $_POST['e_text'];
     $user_id = $_SESSION['acc'];
-    $sql="insert event(e_title,e_text,accounts,e_time) values('$e_title','$e_text','$user_id',NOW())";
-    if(mysqli_query($conn,$sql)){
+    $sql = "insert event(e_title,e_text,accounts,e_time) values('$e_title','$e_text','$user_id',NOW())";
+    if (mysqli_query($conn, $sql)) {
         $targetPage = 'event.php';
         header('Location: ' . $targetPage);
-    exit();
-    }else{
+        exit();
+    } else {
 ?>
-    <script> alert("新增失敗"); history.back(); </script>
+        <script>
+            alert("新增失敗");
+            history.back();
+        </script>
 <?php
-    }}
-    mysqli_close($link);
+    }
+}
+mysqli_close($link);
 ?>

@@ -1,11 +1,9 @@
-<!-- 0503 AQ 導覽列依身分別有區別-->
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 $is_logged_in = isset($_SESSION['name']);
-echo $is_logged_in; 
+echo $is_logged_in;
 ?>
 
 <!DOCTYPE html>
@@ -32,13 +30,13 @@ echo $is_logged_in;
         <!-- 功能列表 -->
         <div class="header_links">
             <!--使用者-->
-            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1){ ?>
-            <a href="event.php" class="header_link">提出建言</a>
-            <a href="vote.php" class="header_link">投票專區</a>
+            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1) { ?>
+                <a href="event.php" class="header_link">提出建言</a>
+                <a href="vote.php" class="header_link">投票專區</a>
             <?php } ?>
             <!--管理者-->
-            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2){ ?>
-            <a href="event.php" class="header_link">審核建言</a>
+            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) { ?>
+                <a href="event.php" class="header_link">審核建言</a>
             <?php } ?>
             <a href="fundraise.php" class="header_link">募資專區</a>
 
