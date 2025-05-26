@@ -1,5 +1,3 @@
-<!--0503 AQ 撰寫審核建言-->
-
 <?php
 if (session_status() == PHP_SESSION_NONE) session_start();
 
@@ -12,18 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include('db.php');
 
     $e_id = $_POST['e_id'];
-    $reason = $_POST['reason'];
-    $action = $_POST['audit_action'];
+    $title = $_POST['pro_title'];
+    $content = $_POST['pro_content'];
+    $file = $_POST['pro_file'];
+    $goal = $_POST['pro_goal'];
+    $date = $_POST['pro_date'];
+    $cate = $_POST['pro_cate'];
     $user_id = $_SESSION['acc'];
-    if ($action === 'up') {
-        $sql = "insert audit(e_id,situation,reason,a_acc) values('$e_id','1','$reason','$user_id')";
-    } elseif ($action === 'down') {
-        $sql = "insert audit(e_id,situation,reason,a_acc) values('$e_id','2','$reason','$user_id')";
-    } else {
-        die('請選擇有效的選項');
-    }
+    $sql = "insert fundraising(e_id,f_title,f_content,f_file,f_now,f_goal,f_date,f_cate,f_type) values('$e_id','$title','$content','$file',0,'$goal','$date','$cate',1)";
     if(mysqli_query($conn,$sql)){
-        $update = "UPDATE audit SET situation = 4 WHERE e_id = '$e_id' AND situation = 1";
+        $update = "UPDATE audit SET situation = 5 WHERE e_id = '$e_id' AND situation = 4";
         mysqli_query($conn, $update);
         $targetPage = 'event.php';
         header('Location: ' . $targetPage);
@@ -33,5 +29,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script> alert("新增失敗"); history.back(); </script>
 <?php
     }}
-    
 ?>

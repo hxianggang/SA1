@@ -1,5 +1,6 @@
+<!--有BUG-->
+
 <?php
-session_start();
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
@@ -48,7 +49,7 @@ $total_pages = ceil($total_topics / $items_per_page);
 <head>
     <meta charset="UTF-8">
     <title>我的議題</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="setting.css">
 </head>
 
 <body class="mytopics_body">

@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
@@ -52,7 +51,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <title>個人資料</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="setting.css">
 </head>
 
 <body class="self_body">
