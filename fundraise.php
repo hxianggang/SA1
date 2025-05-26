@@ -2,6 +2,7 @@
 include('header.php');
 include('db.php');
 include('fun_add.php');
+include('fun_edit.php');
 
 // 處理搜尋功能
 $search_keyword = '';
@@ -51,7 +52,8 @@ $result = mysqli_query($conn, $sql);
                     </div>
                     <div class="fun-mess-right">
                         <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {
-                            render_add_fun($row); 
+                            render_add_fun($row);
+                            render_edit_fun($row);
                         } ?>
                     </div>
                 </div>
@@ -71,6 +73,12 @@ $result = mysqli_query($conn, $sql);
         <?php include('eve_add.php'); ?> 
     <?php endif; ?>
     <script>
+    function openForm2(id) {
+        document.getElementById("formContainer2_" + id).style.display = "block";
+    }
+    function closeForm2(id) {
+        document.getElementById("formContainer2_" + id).style.display = "none";
+    }
     function openForm3(id) {
         document.getElementById("formContainer3_" + id).style.display = "block";
     }
