@@ -22,7 +22,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言系統</title>
-    <link rel="stylesheet" href="setting.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body>
@@ -42,7 +42,7 @@ $result = mysqli_query($conn, $sql);
 
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="index_main-news-mess">
+                <div class="index_main-news-mess ftype-<?php echo $row['f_type']; ?>" data-ftype="<?php echo $row['f_type']; ?>">
                     <div class="fun-mess-left" onclick="window.location.href='fun_post.php?id=<?php echo $row['f_id']; ?>'">
                         <div class="index_mess-date"><?php echo $row['f_date'] ?></div>
                         <div class="index_mess-title"><?php echo $row['f_title']; ?></div>
@@ -51,7 +51,7 @@ $result = mysqli_query($conn, $sql);
                         <div class="index_mess-date"><?php echo "目前金額：".$row['f_now']." / ".$row['f_goal']; ?></div>
                     </div>
                     <div class="fun-mess-right">
-                        <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {
+                        <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2 && $row['f_now'] < $row['f_goal']) {
                             render_add_fun($row);
                             render_edit_fun($row);
                         } ?>
@@ -73,6 +73,39 @@ $result = mysqli_query($conn, $sql);
         <?php include('eve_add.php'); ?> 
     <?php endif; ?>
     <script>
+    function OpenFunc1() {
+        const Func1 = document.getElementById("index_title_func_1");
+        const Func2 = document.getElementById("index_title_func_2");
+        Func1.classList.add("open");
+        Func2.classList.remove("open");
+
+        document.querySelectorAll('.index_main-news-mess').forEach(div => {
+            if (div.dataset.ftype === '1') {
+                div.style.display = 'flex'; // 或 block 看你的 CSS
+            } else {
+                div.style.display = 'none';
+            }
+        });
+    }
+
+    function OpenFunc2() {
+        const Func1 = document.getElementById("index_title_func_1");
+        const Func2 = document.getElementById("index_title_func_2");
+        Func2.classList.add("open");
+        Func1.classList.remove("open");
+
+        document.querySelectorAll('.index_main-news-mess').forEach(div => {
+            if (div.dataset.ftype === '2') {
+                div.style.display = 'flex';
+            } else {
+                div.style.display = 'none';
+            }
+        });
+    }
+
+    //預設顯示1
+    document.addEventListener('DOMContentLoaded', OpenFunc1);
+
     function openForm2(id) {
         document.getElementById("formContainer2_" + id).style.display = "block";
     }

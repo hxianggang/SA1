@@ -41,6 +41,15 @@ $stmt_total->fetch();
 $stmt_total->close();
 
 $total_pages = ceil($total_topics / $items_per_page);
+$search_keyword = '';
+if (isset($_GET['search'])) {
+    $search_keyword = mysqli_real_escape_string($conn, $_GET['search']);
+    $sql = "SELECT * FROM event WHERE e_title LIKE '%$search_keyword%' OR e_text LIKE '%$search_keyword%' ORDER BY e_time DESC";
+} else {
+    $sql = "SELECT * FROM event ORDER BY e_time DESC";
+}
+
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +58,7 @@ $total_pages = ceil($total_topics / $items_per_page);
 <head>
     <meta charset="UTF-8">
     <title>我的議題</title>
-    <link rel="stylesheet" href="setting.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body class="mytopics_body">
@@ -65,31 +74,84 @@ $total_pages = ceil($total_topics / $items_per_page);
     <!-- 右側內容區域 -->
     <div class="mytopics_container">
         <h3 class="mytopics_heading">我的議題</h3>
-        <?php if (count($topics) > 0): ?>
-            <?php foreach ($topics as $topic): ?>
-                <div class="mytopics_row">
-                    <span class="mytopics_label">議題標題：</span>
-                    <span class="mytopics_value"><?= htmlspecialchars($topic['e_title']) ?></span>
-                    <div><strong>內容：</strong><?= htmlspecialchars($topic['e_text']) ?></div>
-                    <div><strong>時間：</strong><?= htmlspecialchars($topic['e_time']) ?></div>
-                </div>
-            <?php endforeach; ?>
-
-            <!-- 分頁 -->
-            <div class="mytopics_pagination">
-                <?php if ($current_page > 1): ?>
-                    <a href="?page=<?= $current_page - 1 ?>" class="mytopics_page_link">上一頁</a>
-                <?php endif; ?>
-
-                <?php if ($current_page < $total_pages): ?>
-                    <a href="?page=<?= $current_page + 1 ?>" class="mytopics_page_link">下一頁</a>
-                <?php endif; ?>
-                <span class="mytopics_page_info">第 <?= $current_page ?> 頁 / 共 <?= $total_pages ?> 頁</span>
-            </div>
-
-        <?php else: ?>
-            <div style="color: gray;">您尚未發布過任何建言。</div>
-        <?php endif; ?>
+                <?php if ($result->num_rows > 0){ ?>
+                    <?php while ($row = $result->fetch_assoc()){ 
+                        $eventDate = new DateTime($row['e_time']);
+                        $now = new DateTime();
+                        $interval = $eventDate->diff($now);
+                        $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;?>
+                        <?php if ($_SESSION['acc'] == $row['accounts']){ ?> <!--只有自己提的才能看到-->
+                            <div class="index_main-news-mess">
+                            <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?php echo $row['e_id']; ?>'">
+                                <div class="index_mess-date"><?php echo $row['e_time']; ?></div>
+                                <div class="index_mess-title"><?php echo $row['e_title']; ?></div>
+                            </div>
+                            <div class="index-mess-right">
+                            <?php
+                            // 查看現況
+                            ?>
+                                <div class="index_mess-date">
+                                    <?php
+                                    $e_id = $row['e_id'];
+                                    $sqla = "SELECT * FROM audit WHERE e_id = $e_id";
+                                    $resulta = mysqli_query($conn, $sqla);
+                                    $rowa = mysqli_fetch_assoc($resulta);
+                                    if ($isOverThreeMonths) {
+                                        if (isset($rowa['a_acc'])){
+                                            if ($rowa['situation'] == 1){
+                                                echo "已審核通過";
+                                            }else if ($rowa['situation'] == 2){
+                                                echo "已否決建言";
+                                            }else if ($rowa['situation'] == 3){
+                                                echo "投票未通過";
+                                            }else if ($rowa['situation'] == 4){
+                                                echo "計畫制定中";
+                                            }else if ($rowa['situation'] == 5){
+                                                echo "正在募資中";
+                                            }else if ($rowa['situation'] == 6){
+                                                echo "計畫進行中";
+                                            }else if ($rowa['situation'] == 7){
+                                                echo "申訴期間";
+                                            }else if ($rowa['situation'] == 8){
+                                                echo "建言已結案";
+                                            }
+                                        }else{
+                                            echo "已結束待審核";
+                                        }
+                                    }else{
+                                        if (isset($rowa['a_acc'])){
+                                            if ($rowa['situation'] == 1){
+                                                echo "已審核通過";
+                                            }else if ($rowa['situation'] == 2){
+                                                echo "已否決建言";
+                                            }else if ($rowa['situation'] == 3){
+                                                echo "投票未通過";
+                                            }else if ($rowa['situation'] == 4){
+                                                echo "計畫制定中";
+                                            }else if ($rowa['situation'] == 5){
+                                                echo "正在募資中";
+                                            }else if ($rowa['situation'] == 6){
+                                                echo "計畫進行中";
+                                            }else if ($rowa['situation'] == 7){
+                                                echo "申訴期間";
+                                            }else if ($rowa['situation'] == 8){
+                                                echo "建言已結案";
+                                            }
+                                        }else if(!isset($rowa['a_acc'])){
+                                            $sql3 = "SELECT COUNT(*) AS vote_count FROM vote WHERE e_id = '{$row['e_id']}'";
+                                            $result3 = mysqli_query($conn, $sql3);
+                                            $row3 = mysqli_fetch_assoc($result3);
+                                            echo "總投票數：",$row3['vote_count'];
+                                        }
+                                    }?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php }  ?>
+                    <?php } ?>
+                <?php } ?>
+            </div>       
+        </div>
     </div>
 
 </body>

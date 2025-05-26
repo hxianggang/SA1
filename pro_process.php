@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(mysqli_query($conn,$sql)){
         $update = "UPDATE audit SET situation = 5 WHERE e_id = '$e_id' AND situation = 4";
         mysqli_query($conn, $update);
+        $update2 = "UPDATE event SET e_type = 1 WHERE e_id = '$e_id'";
+        mysqli_query($conn, $update2);
         $targetPage = 'event.php';
         header('Location: ' . $targetPage);
     exit();mysqli_close($conn);
