@@ -75,7 +75,7 @@ $result = mysqli_query($conn, $sql);
         include('ann_add.php');
     } ?>
     <!-- 只有學生身分才顯示新增建言按鈕 -->
-    <?php if ($_SESSION['permissions'] == 1): ?>
+    <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
         <?php include('eve_add.php'); ?> 
     <?php endif; ?>
 

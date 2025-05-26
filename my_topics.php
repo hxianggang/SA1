@@ -153,6 +153,10 @@ $result = mysqli_query($conn, $sql);
             </div>       
         </div>
     </div>
+    <!-- 只有學生身分才顯示新增建言按鈕 -->
+    <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
+        <?php include('eve_add.php'); ?> 
+    <?php endif; ?>
 
 </body>
 

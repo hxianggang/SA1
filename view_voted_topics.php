@@ -90,6 +90,10 @@ $total_pages = ceil($total_voted / $items_per_page);
             <div style="color: gray;">您尚未投票過任何議題。</div>
         <?php endif; ?>
     </div>
+    <!-- 只有學生身分才顯示新增建言按鈕 -->
+    <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
+        <?php include('eve_add.php'); ?> 
+    <?php endif; ?>
 
 </body>
 
