@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
@@ -52,7 +51,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <title>個人資料</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body class="self_body">
@@ -114,6 +113,10 @@ $stmt->close();
             </form>
         </div>
     </div>
+    <!-- 只有學生身分才顯示新增建言按鈕 -->
+    <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
+        <?php include('eve_add.php'); ?> 
+    <?php endif; ?>
 
     <script>
         // 顯示/隱藏彈窗

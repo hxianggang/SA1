@@ -21,20 +21,19 @@
     <main>
         <?php
         $id=$_GET['id'];
-        $sql = "select * from announcements a,user u where a.id='$id' and u.accounts=a.accounts";
+        $sql = "select * from fundraising where f_id=$id";
         $result=mysqli_query($conn,$sql);
         while($row=mysqli_fetch_assoc($result)){ ?>
         <div class="message-page">
             <div class="message-page-left">
                 <div class="back-href" onclick="window.history.back()"><p><i class='bx bx-arrow-back'></i> 返回上一頁</div></p>
-                <div class="message-title"><?php echo $row['title']; ?></div>
+                <div class="message-title"><?php echo $row['f_title']; ?></div>
                 <div class="date-person">
-                    <div class="message-date"><?php echo $row['date']; ?> ‧</div>
-                    <div class="message-person"> <?php echo $row['name']; ?></div>
+                    <div class="message-date"><?php echo $row['f_date']; ?></div>
                 </div>
 
                 <!--內文-->
-                <div class="message-info"><?php echo $row['content']; ?></div>
+                <div class="message-info"><?php echo $row['f_content']; ?></div>
 
                 <!--檔案上傳-->
                 <div class="message-docu">
@@ -43,7 +42,32 @@
             </div>
 
             <!--之後可以放募資消息-->
-            <div class="message-page-right">待更新</div>
+            <div class="message-page-right">
+                <?php
+                echo "目標金額：";
+                echo $row['f_now']."/".$row['f_goal'];
+                $sql2 = "select * from log where f_id=$id";
+                $result2=mysqli_query($conn,$sql2);
+                if ($result2->num_rows > 0): ?>
+                    <?php while ($row = $result2->fetch_assoc()): ?>
+                        <div class="index_main-news-mess">
+                            <div class="fun-mess-left">
+                                <div class="index_mess-title"><?php echo $row['l_name']; ?></div>
+                            </div>
+                            <div class="fun-mess-mid">
+                                <?php echo $row['l_qua']; ?>
+                            </div>
+                            <div class="fun-mess-right">
+                                <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {?>
+                                <div class='but-delete' onclick="window.location.href='fun_process_delete.php?id=<?php echo $row['l_id']; ?>'">刪除</div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div>目前還沒有募資紀錄</div>
+                <?php endif; ?>
+            </div>
         </div>
         <?php } ?>
     </main>

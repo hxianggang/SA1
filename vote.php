@@ -1,3 +1,5 @@
+<!-- 0503 AQ 撰寫投票介面-->
+
 <?php
 include('header.php');
 include('db.php');
@@ -21,7 +23,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言系統</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body>
@@ -36,48 +38,47 @@ $result = mysqli_query($conn, $sql);
 
 
     <!-- 投票列表 -->
-    <div class="index_main-news">
-        <div class="index_main-news-title">投票專區</div>
-        <?php if ($result->num_rows > 0) { ?>
-            <?php
-            while ($row = $result->fetch_assoc()) {
-                $sql4 = "SELECT * FROM audit WHERE e_id = '{$row['e_id']}'";
-                $result4 = mysqli_query($conn, $sql4);
-                $row4 = mysqli_fetch_assoc($result4);
+        <div class="index_main-news">
+            <div class="index_main-news-title">
+                <div class="index_main-news-title_func open" id="index_title_func_1" onclick="OpenFunc1()">投票區</div>
+                <div class="index_main-news-title_func" id="index_title_func_2" onclick="OpenFunc2()">已結束</div>
+            </div>
+                <?php if ($result->num_rows > 0){ ?>
+                    <?php while ($row = $result->fetch_assoc()) {
+                    
+                    $sqlEtype = "SELECT e_type FROM event WHERE e_id = '{$row['e_id']}' LIMIT 1";
+                    $resultEtype = mysqli_query($conn, $sqlEtype);
+                    $e_type = 1; 
+                    if ($rowEtype = mysqli_fetch_assoc($resultEtype)) {
+                        $e_type = $rowEtype['e_type'];
+                    }
 
-                // 新增：時間判斷
-                $eventDate = new DateTime($row['e_time']);
-                $now = new DateTime();
-                $interval = $eventDate->diff($now);
-                $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
+                    $sql4 = "SELECT * FROM audit WHERE e_id = '{$row['e_id']}'";
+                    $result4 = mysqli_query($conn, $sql4);
+                    $row4 = mysqli_fetch_assoc($result4);
 
-                if (!isset($row4['a_acc']) && !$isOverThreeMonths) {
-            ?>
-                    <div class="index_main-news-mess">
+                    $eventDate = new DateTime($row['e_time']);
+                    $now = new DateTime();
+                    $interval = $eventDate->diff($now);
+                    $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
+                    ?>
+                    <div class="index_main-news-mess" data-etype="<?php echo $row['e_type']; ?>">
                         <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?php echo $row['e_id']; ?>'">
                             <div class="index_mess-date"><?php echo $row['e_time']; ?></div>
                             <div class="index_mess-title"><?php echo $row['e_title']; ?></div>
                         </div>
                         <div class="index-mess-right">
                             <?php
-                            // 查投票人數
                             $sql3 = "SELECT COUNT(*) AS vote_count FROM vote WHERE e_id = '{$row['e_id']}'";
                             $result3 = mysqli_query($conn, $sql3);
                             $row3 = mysqli_fetch_assoc($result3);
                             ?>
-                            <div class="index_mess-date">
-                                投票數：<?php echo $row3['vote_count']; ?>
-                            </div>
+                            <div class="index_mess-date">投票數：<?php echo $row3['vote_count']; ?></div>
                         </div>
                     </div>
-            <?php
-                }
-            }
-            ?>
-
-        <?php } ?>
-    </div>
-    </div>
+                <?php }}?>
+            </div>       
+        </div>
 
 
     <!-- 搜尋表單 (隱藏) -->
@@ -87,11 +88,32 @@ $result = mysqli_query($conn, $sql);
 
     <!-- 只有學生身分才顯示新增建言按鈕 -->
     <?php if ($_SESSION['permissions'] == 1): ?>
-        <?php include('eve_add.php'); ?>
+        <?php include('eve_add.php'); ?> 
     <?php endif; ?>
 
     <!-- JavaScript 載入 -->
-    <script src="script.js"></script>
+    <script>
+        function OpenFunc1() {
+            document.getElementById("index_title_func_1").classList.add("open");
+            document.getElementById("index_title_func_2").classList.remove("open");
+
+            document.querySelectorAll('.index_main-news-mess').forEach(div => {
+                div.style.display = div.dataset.etype === '0' ? 'flex' : 'none';
+            });
+        }
+
+        function OpenFunc2() {
+            document.getElementById("index_title_func_2").classList.add("open");
+            document.getElementById("index_title_func_1").classList.remove("open");
+
+            document.querySelectorAll('.index_main-news-mess').forEach(div => {
+                div.style.display = div.dataset.etype === '1' ? 'flex' : 'none';
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", OpenFunc1);
+
+    </script>
 </body>
 
 </html>

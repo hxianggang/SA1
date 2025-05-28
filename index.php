@@ -1,6 +1,10 @@
+<!-- 0503 AQ 把公告的CRUD接完、修搜尋框-->
+
 <?php
 include('header.php');
 include('db.php');
+include('ann_edit.php');
+
 // 處理搜尋功能
 $search_keyword = '';
 if (isset($_GET['search'])) {
@@ -20,7 +24,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言系統</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body>
@@ -46,9 +50,10 @@ $result = mysqli_query($conn, $sql);
                         <div class="index_mess-title"><?php echo $row['title']; ?></div>
                     </div>
                     <div class="index-mess-right">
-                        <?php
-                        if (isset($_SESSION['acc']) && $row['accounts'] == $_SESSION['acc']) { ?>
-                            <div class='but-edit' onclick="window.location.href='ann_edit.php?id=<?php echo $row['id']; ?>'">修改</div>
+                    <?php
+                        if (isset($_SESSION['acc']) && $row['accounts'] == $_SESSION['acc']) {
+                            ?>
+                            <?php render_edit_form($row); ?>
                             <div class='but-delete' onclick="window.location.href='ann_delete.php?id=<?php echo $row['id']; ?>'">刪除</div>
                         <?php } ?>
                     </div>
@@ -64,19 +69,31 @@ $result = mysqli_query($conn, $sql);
         <input type="text" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>">
     </form>
 
-    <!-- 只有學生身分才顯示新增公告按鈕 -->
-    <?php
+    <!-- 只有管理員身分才顯示新增公告按鈕 -->
+   <?php
     if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {
         include('ann_add.php');
     } ?>
-
-    <!-- 只有登入且是學生身分才顯示新增建言按鈕 -->
+    <!-- 只有學生身分才顯示新增建言按鈕 -->
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
-        <?php include('eve_add.php'); ?>
+        <?php include('eve_add.php'); ?> 
     <?php endif; ?>
 
     <!-- JavaScript 載入 -->
-    <script src="script.js"></script>
+    <script>
+    function openForm() {
+        document.getElementById("formContainer").style.display = "block";
+    }
+    function closeForm() {
+        document.getElementById("formContainer").style.display = "none";
+    }
+    function openForm2(id) {
+        document.getElementById("formContainer2_" + id).style.display = "block";
+    }
+    function closeForm2(id) {
+        document.getElementById("formContainer2_" + id).style.display = "none";
+    }
+    </script>
 </body>
 
 </html>

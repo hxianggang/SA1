@@ -1,3 +1,5 @@
+<!--0503 AQ 去AI化-->
+
 <?php
 ob_start();
 // 檢查是否已登入
@@ -29,5 +31,5 @@ if (!isset($_SESSION['name'])) {
 </div>
 
 <?php
-ob_end_flush();
+ob_end_flush(); 
 ?>

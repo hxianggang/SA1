@@ -1,39 +1,25 @@
 <?php
-session_start();
 include('db.php');
 
 $error_message = ""; // 初始化錯誤訊息變數
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $acc = $_POST['acc'];
-    $pw = $_POST['pw'];
-
-    // 連接資料庫
-    $link = mysqli_connect('localhost', 'root');
-    mysqli_select_db($link, 'sa');
-
-    // 查詢使用者帳號
-    $sql = "SELECT * FROM user WHERE accounts='$acc'";
-    $result = mysqli_query($link, $sql);
-
-    // 檢查帳號是否存在
-    if ($row = mysqli_fetch_assoc($result)) {
-        // 使用 password_verify 來驗證密碼
-        if (password_verify($pw, $row['password'])) {
-            $_SESSION['acc'] = $acc;
-            $_SESSION['permissions'] = $row['permissions'];
-            $_SESSION['name'] = $row['accounts'];
-            $targetPage = 'index.php';
-            header('Location: ' . $targetPage);
-            exit();
-        } else {
+    $acc=$_POST['acc'];
+    $pw=$_POST['pw'];
+    $link=mysqli_connect('localhost','root');
+    mysqli_select_db($link,'sa');
+    $sql = "select * from user where accounts='$acc' and password='$pw'";
+    $result=mysqli_query($link,$sql);
+    if($row=mysqli_fetch_assoc($result)){
+        $_SESSION['acc']=$acc;
+        $_SESSION['permissions']=$row['permissions'];
+        $_SESSION['name']=$row['name'];
+        $targetPage = 'index.php';
+        header('Location: '. $targetPage);
+        exit();
+        }else{
             $error_message = "帳號或密碼錯誤";
-        }
-    } else {
-        $error_message = "帳號或密碼錯誤";
-    }
-}
-?>
+        }}?>
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -42,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登入</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="new.css">
 </head>
 
 <body class="login_body">

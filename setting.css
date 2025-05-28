@@ -1,6 +1,7 @@
 /* ================= header：通用設定 ================= */
 :root {
     --orange1: #ff8000;
+    --orange2: #FFAF60;
     --color-white: #fefefe;
 }
 
@@ -178,6 +179,7 @@ body {
 
 .index_search-but {
     width: 10%;
+    border: none;
     background-color: #ff8000;
     color: #ffffff;
     text-align: center;
@@ -209,8 +211,30 @@ body {
 .index_main-news-title {
     font-size: 24px;
     font-weight: bold;
-    color: #ff8000;
     margin-bottom: 20px;
+    display: flex;
+}
+
+.index_main-news-title_func{
+    width: 12%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--orange2);
+    transition: all .3s;
+}
+
+.index_main-news-title_func:hover{
+    color: var(--orange1);
+}
+
+.index_main-news-title_func.open{
+    width: 12%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--orange1);
+    transition: all .3s;
 }
 
 .index_main-news-mess {
@@ -987,4 +1011,58 @@ body {
     display: flex;
     align-items: center;
     padding-left: 10px;
+}
+
+.eve_post_but{
+    background-color: var(--orange1);
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 20%;
+}
+
+.aud-form{
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.aud-form-radio{
+    accent-color: var(--orange1);
+}
+
+.aud-form-text{
+    border: 1px solid #333;
+    border-radius: 5px;
+    height: 100px;
+    padding: 5px;
+    resize: none;
+}
+
+.aud-form-text:focus{
+    outline: none;
+    border: 1px solid var(--orange1);
+}
+
+.form-date{
+    width: 50%;
+}
+
+.fun-mess-left{
+    width: 50%;
+    height: 100%;
+}
+
+.fun-mess-mid{
+    width: 30%;
+    height: 100%;
+}
+
+.fun-mess-right{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-03 13:56:44
+-- 產生時間： 2025-05-26 05:35:27
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.1.25
 
@@ -41,10 +41,8 @@ CREATE TABLE `announcements` (
 --
 
 INSERT INTO `announcements` (`id`, `title`, `content`, `date`, `created_at`, `accounts`) VALUES
-(5, '已經不要緊了', '因為我來了!', '2025-05-02', '2025-05-02 09:05:21', 567),
-(6, '手心貼手心', '一起心電心', '2025-05-02', '2025-05-02 09:10:05', 567),
-(7, '手心貼手心', '一起心電心', '2025-05-02', '2025-05-02 09:10:10', 567),
-(27, '1', '12', '2025-05-03', '2025-05-03 06:55:52', 456);
+(49, 'asd', 'qwe', '2025-05-26', '2025-05-26 01:24:09', 567),
+(50, '123', '123', '2025-05-26', '2025-05-26 01:26:34', 567);
 
 -- --------------------------------------------------------
 
@@ -55,7 +53,7 @@ INSERT INTO `announcements` (`id`, `title`, `content`, `date`, `created_at`, `ac
 CREATE TABLE `audit` (
   `a_id` int(11) NOT NULL,
   `e_id` int(50) NOT NULL,
-  `situation` int(2) NOT NULL,
+  `situation` int(10) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `a_acc` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -65,8 +63,7 @@ CREATE TABLE `audit` (
 --
 
 INSERT INTO `audit` (`a_id`, `e_id`, `situation`, `reason`, `a_acc`) VALUES
-(1, 17, 1, '123', 456),
-(2, 18, 2, '123', 567);
+(23, 35, 5, '2', 567);
 
 -- --------------------------------------------------------
 
@@ -88,12 +85,10 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accounts`) VALUES
-(16, '建言一', '12345', '2025-05-02', '', 123),
-(17, '2', '2', '2025-05-07', '', 234),
-(18, '1', '1', '2025-05-03', '', 123),
-(19, '2', '2', '2025-05-03', '', 123),
-(20, '3', '3', '2025-05-03', '', 234),
-(21, '7', '7', '2025-05-03', '', 123);
+(33, 'ruby醬', 'はい', '2025-01-01', '', 123),
+(35, '1', '123', '2025-05-13', '', 123),
+(36, '2', '234', '2025-05-13', '', 234),
+(37, '123', '123', '2025-05-13', '', 123);
 
 -- --------------------------------------------------------
 
@@ -104,12 +99,22 @@ INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accoun
 CREATE TABLE `fundraising` (
   `f_id` int(50) NOT NULL COMMENT '時間序位',
   `e_id` int(50) NOT NULL COMMENT '引用資訊',
-  `f_bar` int(50) NOT NULL COMMENT '顯示進程(階段)',
-  `f_doc` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '企劃書(支援PDF、圖片)' CHECK (json_valid(`f_doc`)),
-  `f_contect` varchar(50) NOT NULL COMMENT '聯繫校方',
-  `f_line` date NOT NULL COMMENT '處理期限',
-  `f_depart` varchar(20) NOT NULL COMMENT '處理單位'
+  `f_title` varchar(100) NOT NULL,
+  `f_content` varchar(100) NOT NULL,
+  `f_file` varchar(100) NOT NULL,
+  `f_now` int(100) NOT NULL,
+  `f_goal` int(100) NOT NULL,
+  `f_date` date NOT NULL,
+  `f_cate` int(100) NOT NULL,
+  `f_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `fundraising`
+--
+
+INSERT INTO `fundraising` (`f_id`, `e_id`, `f_title`, `f_content`, `f_file`, `f_now`, `f_goal`, `f_date`, `f_cate`, `f_type`) VALUES
+(8, 35, '測試', '123', '', 0, 100000, '2025-05-31', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -135,8 +140,7 @@ CREATE TABLE `log` (
   `l_id` int(100) NOT NULL COMMENT '流水號',
   `f_id` int(50) NOT NULL COMMENT '募資編號',
   `l_name` varchar(10) NOT NULL COMMENT '募款者姓名',
-  `l_item` varchar(50) NOT NULL COMMENT '捐贈物品/金錢',
-  `l_qua` int(100) NOT NULL COMMENT '捐贈數量',
+  `l_qua` int(100) NOT NULL COMMENT '金額',
   `l_time` date NOT NULL COMMENT '捐贈時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -173,19 +177,17 @@ INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALU
 CREATE TABLE `vote` (
   `v_id` int(100) NOT NULL COMMENT '流水號',
   `e_id` int(50) NOT NULL COMMENT '文章編號',
-  `v_stu` int(50) NOT NULL COMMENT '學號'
+  `v_stu` int(50) NOT NULL COMMENT '學號',
+  `v_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `vote`
 --
 
-INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
-(1, 17, 123),
-(2, 18, 123),
-(3, 17, 234),
-(4, 20, 234),
-(5, 16, 123);
+INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`, `v_type`) VALUES
+(16, 36, 234, 1),
+(17, 37, 123, 1);
 
 --
 -- 已傾印資料表的索引
@@ -256,25 +258,37 @@ ALTER TABLE `vote`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `event`
 --
 ALTER TABLE `event`
-  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `fundraising`
+--
+ALTER TABLE `fundraising`
+  MODIFY `f_id` int(50) NOT NULL AUTO_INCREMENT COMMENT '時間序位', AUTO_INCREMENT=9;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `log`
+--
+ALTER TABLE `log`
+  MODIFY `l_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=9;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=6;
+  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=18;
 
 --
 -- 已傾印資料表的限制式
