@@ -1,5 +1,3 @@
-<!-- 0503 AQ 導覽列依身分別有區別-->
-
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -44,7 +42,7 @@ $is_logged_in = isset($_SESSION['name']);
             <?php if ($is_logged_in): ?>
                 <!-- 顯示學號並跳轉到個人資訊 -->
                 <a href="self.php" class="header_link"><?php echo $_SESSION['name']; ?></a>
-                <!-- 顯示登出圖示 -->
+                <!-- 顯示登出圖示 --> 
                 <div class="header_logout-icon" onclick="showLogoutConfirm()"></div>
             <?php else: ?>
                 <!-- 顯示登入 -->

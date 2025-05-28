@@ -1,6 +1,7 @@
-<!--有BUG-->
-
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
     exit();
@@ -92,7 +93,7 @@ $total_pages = ceil($total_voted / $items_per_page);
     </div>
     <!-- 只有學生身分才顯示新增建言按鈕 -->
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
-        <?php include('eve_add.php'); ?> 
+        <?php include('eve_add.php'); ?>
     <?php endif; ?>
 
 </body>

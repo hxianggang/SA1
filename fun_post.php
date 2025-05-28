@@ -1,5 +1,3 @@
-<!--0503 AQ 刪除冗餘程式碼-->
-
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">

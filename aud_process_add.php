@@ -1,5 +1,3 @@
-<!--0503 AQ 撰寫審核建言-->
-
 <?php
 if (session_status() == PHP_SESSION_NONE) session_start();
 
