@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-26 05:35:27
+-- 產生時間： 2025-05-28 11:10:50
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.1.25
 
@@ -63,7 +63,7 @@ CREATE TABLE `audit` (
 --
 
 INSERT INTO `audit` (`a_id`, `e_id`, `situation`, `reason`, `a_acc`) VALUES
-(23, 35, 5, '2', 567);
+(26, 35, 5, '567', 567);
 
 -- --------------------------------------------------------
 
@@ -77,18 +77,21 @@ CREATE TABLE `event` (
   `e_text` varchar(500) NOT NULL COMMENT '內文',
   `e_time` date NOT NULL COMMENT '日期',
   `e_picture` blob NOT NULL COMMENT '圖片',
-  `accounts` int(50) NOT NULL COMMENT '提案人帳號'
+  `accounts` int(50) NOT NULL COMMENT '提案人帳號',
+  `e_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `event`
 --
 
-INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accounts`) VALUES
-(33, 'ruby醬', 'はい', '2025-01-01', '', 123),
-(35, '1', '123', '2025-05-13', '', 123),
-(36, '2', '234', '2025-05-13', '', 234),
-(37, '123', '123', '2025-05-13', '', 123);
+INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accounts`, `e_type`) VALUES
+(33, 'ruby醬', 'はい', '2025-01-01', '', 123, 1),
+(35, '1', '123', '2025-05-13', '', 123, 1),
+(36, '2', '234', '2025-05-13', '', 234, 0),
+(37, '123', '123', '2025-05-13', '', 123, 0),
+(38, 'asdlkjdslkasdjlsad', 'adgf a gdf', '2025-05-26', '', 123, 0),
+(39, '可愛小貓咪', 'weewf', '2025-05-26', '', 123, 0);
 
 -- --------------------------------------------------------
 
@@ -114,7 +117,8 @@ CREATE TABLE `fundraising` (
 --
 
 INSERT INTO `fundraising` (`f_id`, `e_id`, `f_title`, `f_content`, `f_file`, `f_now`, `f_goal`, `f_date`, `f_cate`, `f_type`) VALUES
-(8, 35, '測試', '123', '', 0, 100000, '2025-05-31', 2, 1);
+(8, 35, '測試', '測試用', '', 100000, 100000, '2025-05-31', 2, 2),
+(9, 35, '測試2', 'test', '', 1000, 1000000, '2025-06-07', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -144,6 +148,14 @@ CREATE TABLE `log` (
   `l_time` date NOT NULL COMMENT '捐贈時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `log`
+--
+
+INSERT INTO `log` (`l_id`, `f_id`, `l_name`, `l_qua`, `l_time`) VALUES
+(11, 8, 'AQ', 100000, '2025-05-26'),
+(12, 9, 'AQ', 1000, '2025-05-26');
+
 -- --------------------------------------------------------
 
 --
@@ -163,6 +175,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALUES
+(8, '8@8', '$2y$10$OFar6SNf1aypk2X0KBR.XOadLXzKjlp.ZJLUpqZO0lYyv/zKmwwoK', '', ''),
 (123, '123', '123', '1', '爆豪勝己'),
 (234, '234', '234', '1', '綠谷出久'),
 (456, '456', '456', '2', '相澤消太'),
@@ -177,17 +190,16 @@ INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALU
 CREATE TABLE `vote` (
   `v_id` int(100) NOT NULL COMMENT '流水號',
   `e_id` int(50) NOT NULL COMMENT '文章編號',
-  `v_stu` int(50) NOT NULL COMMENT '學號',
-  `v_type` int(10) NOT NULL
+  `v_stu` int(50) NOT NULL COMMENT '學號'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 傾印資料表的資料 `vote`
 --
 
-INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`, `v_type`) VALUES
-(16, 36, 234, 1),
-(17, 37, 123, 1);
+INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
+(16, 36, 234),
+(17, 37, 123);
 
 --
 -- 已傾印資料表的索引
@@ -264,25 +276,25 @@ ALTER TABLE `announcements`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `event`
 --
 ALTER TABLE `event`
-  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `fundraising`
 --
 ALTER TABLE `fundraising`
-  MODIFY `f_id` int(50) NOT NULL AUTO_INCREMENT COMMENT '時間序位', AUTO_INCREMENT=9;
+  MODIFY `f_id` int(50) NOT NULL AUTO_INCREMENT COMMENT '時間序位', AUTO_INCREMENT=10;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `log`
 --
 ALTER TABLE `log`
-  MODIFY `l_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=9;
+  MODIFY `l_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=16;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `vote`
