@@ -49,6 +49,40 @@ if ($_SESSION['permissions'] == 2) {
     <meta charset="UTF-8">
     <title>愛校建言系統</title>
     <link rel="stylesheet" href="new.css">
+    <style>
+        .event_main-news-mess {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+            cursor: pointer;
+        }
+
+        .event_main-news-mess:hover {
+            background-color: #f9f9f9;
+        }
+
+        .event_mess-left {
+            width: 75%;
+            height: 100%;
+        }
+
+        .event_mess-right {
+            width: 25%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+    </style>
 </head>
 
 <body>
@@ -152,12 +186,12 @@ if ($_SESSION['permissions'] == 2) {
                         }
                     }
                 ?>
-                    <div class="index_main-news-mess">
-                        <div class="index-mess-left" onclick="window.location.href='eve_post.php?e_id=<?= $row['e_id'] ?>'">
+                    <div class="event_main-news-mess">
+                        <div class="event_mess-left" onclick="window.location.href='eve_post.php?e_id=<?= $row['e_id'] ?>'">
                             <div class="index_mess-date"><?= $row['e_time'] ?></div>
                             <div class="index_mess-title"><?= $row['e_title'] ?></div>
                         </div>
-                        <div class="index-mess-right">
+                        <div class="event_mess-right">
                             投票數：<?= $row3['vote_count'] ?>　
                             <?= $status_text ?>
                         </div>

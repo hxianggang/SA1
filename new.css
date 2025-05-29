@@ -251,15 +251,23 @@ body {
 
 .index-mess-left {
     width: 80%;
-    height: 100%;
+    padding-right: 20px;
 }
 
 .index-mess-right {
     width: 20%;
-    height: 100%;
+    padding-left: 15px;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    align-items: center;
 }
+
+.index-mess-right .index_mess-date {
+    color: var(--orange1);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
 
 .but-edit {
     background-color: rgba(0, 0, 0, 0);
