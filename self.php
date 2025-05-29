@@ -116,8 +116,9 @@ $stmt->close();
     </div>
     <!-- 只有學生身分才顯示新增建言按鈕 -->
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
-        <?php include('eve_add.php'); ?> 
+        <?php include('eve_add.php'); ?>
     <?php endif; ?>
+    <script src="123.js"></script>
 
     <script>
         // 顯示/隱藏彈窗

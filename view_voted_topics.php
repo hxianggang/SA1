@@ -95,6 +95,7 @@ $total_pages = ceil($total_voted / $items_per_page);
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
         <?php include('eve_add.php'); ?>
     <?php endif; ?>
+    <script src="123.js"></script>
 
 </body>
 
