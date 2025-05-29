@@ -4,29 +4,40 @@ include('db.php');
 include('fun_add.php');
 include('fun_edit.php');
 
-// 處理搜尋功能
+// 搜尋關鍵字
 $search_keyword = '';
-if (isset($_GET['search'])) {
+if (isset($_GET['search']) && $_GET['search'] !== '') {
     $search_keyword = mysqli_real_escape_string($conn, $_GET['search']);
-    $sql = "SELECT * FROM fundraising WHERE f_title LIKE '%$search_keyword%' ORDER BY f_date DESC";
-} else {
-    $sql = "SELECT * FROM fundraising ORDER BY f_date DESC";
+}
+$search_sql = '';
+if ($search_keyword !== '') {
+    $search_sql = " AND f_title LIKE '%$search_keyword%'";
 }
 
+// 排序方向
+$allowed_orders = ['ASC', 'DESC'];
+$sort_order = 'DESC'; // 預設最新→最舊
+if (isset($_GET['sort_order']) && in_array($_GET['sort_order'], $allowed_orders)) {
+    $sort_order = $_GET['sort_order'];
+}
+
+// SQL 查詢募資公告並排序
+$sql = "SELECT * FROM fundraising WHERE 1=1 $search_sql ORDER BY f_date $sort_order";
 $result = mysqli_query($conn, $sql);
 
 $fundraising_in_progress = [];
 $fundraising_reached_goal = [];
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        if ($row['f_type'] === '1') {  // 假設 '1' 代表募資中
+        if ($row['f_type'] === '1') {
             $fundraising_in_progress[] = $row;
-        } elseif ($row['f_type'] === '2') {  // 假設 '2' 代表已達標
+        } elseif ($row['f_type'] === '2') {
             $fundraising_reached_goal[] = $row;
         }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -39,14 +50,19 @@ if ($result && $result->num_rows > 0) {
 
 <body>
 
-    <!-- 搜尋框 -->
-    <form id="search-form" method="GET" class="index_search-block">
-        <div class="index_search-box">
-            <input type="text" class="index_search-bar" placeholder="請輸入關鍵字" name="search" value="<?= htmlspecialchars($search_keyword) ?>" />
-            <button type="submit" class="index_search-but">搜尋</button>
-        </div>
+    <!-- 搜尋框 + 排序選單 -->
+    <form id="search-form" method="GET" class="index_search-block" style="display:flex; align-items:center; gap:12px; max-width:900px; margin:20px auto 30px;">
+        <input type="text" class="index_search-bar" placeholder="請輸入關鍵字" name="search" value="<?= htmlspecialchars($search_keyword) ?>" style="flex-grow:1; padding:8px 12px; font-size:1rem; border:1px solid #ccc; border-radius:6px;" />
+
+        <select name="sort_order" onchange="this.form.submit()" style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; cursor:pointer;">
+            <option value="DESC" <?= $sort_order === 'DESC' ? 'selected' : '' ?>>時間 ↓</option>
+            <option value="ASC" <?= $sort_order === 'ASC' ? 'selected' : '' ?>>時間 ↑</option>
+        </select>
+
+        <button type="submit" class="index_search-but" style="padding:8px 18px; border-radius:6px; background:#ff7f50; color:#fff; border:none; cursor:pointer; font-size:1rem;">搜尋</button>
     </form>
 
+    <!-- 以下維持你原本的募資公告區塊 -->
     <div class="index_main-news">
         <div class="index_main-news-title">
             <div class="index_main-news-title_func open" id="index_title_func_1" onclick="OpenFunc1()">募資中</div>

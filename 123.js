@@ -25,16 +25,22 @@ document.addEventListener('DOMContentLoaded', function () {
     window.closeForm2 = closeForm2;
 });
 
-function OpenFunc1(){
+function OpenFunc1() {
     const Func1 = document.getElementById("index_title_func_1");
     const Func2 = document.getElementById("index_title_func_2");
     Func1.classList.add("open");
     Func2.classList.remove("open");
+
+    document.getElementById("in_progress_area").style.display = "flex";
+    document.getElementById("reached_goal_area").style.display = "none";
 }
 
-function OpenFunc2(){
+function OpenFunc2() {
     const Func1 = document.getElementById("index_title_func_1");
     const Func2 = document.getElementById("index_title_func_2");
     Func2.classList.add("open");
     Func1.classList.remove("open");
+
+    document.getElementById("in_progress_area").style.display = "none";
+    document.getElementById("reached_goal_area").style.display = "flex";
 }

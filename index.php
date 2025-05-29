@@ -3,15 +3,19 @@ include('header.php');
 include('db.php');
 include('ann_edit.php');
 
-// 處理搜尋功能
+// 取得搜尋關鍵字
 $search_keyword = '';
 if (isset($_GET['search'])) {
     $search_keyword = mysqli_real_escape_string($conn, $_GET['search']);
-    $sql = "SELECT * FROM announcements WHERE title LIKE '%$search_keyword%' OR content LIKE '%$search_keyword%' ORDER BY date DESC";
-} else {
-    $sql = "SELECT * FROM announcements ORDER BY date DESC";
 }
 
+// 取得排序方向，預設 DESC
+$sort_order = 'DESC';
+if (isset($_GET['sort_order']) && ($_GET['sort_order'] === 'ASC' || $_GET['sort_order'] === 'DESC')) {
+    $sort_order = $_GET['sort_order'];
+}
+
+$sql = "SELECT * FROM announcements WHERE title LIKE '%$search_keyword%' OR content LIKE '%$search_keyword%' ORDER BY date $sort_order";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -27,16 +31,28 @@ $result = mysqli_query($conn, $sql);
 
 <body>
 
-    <!-- 搜尋框 -->
-    <form id="search-form" method="GET" class="index_search-block">
-        <div class="index_search-box">
-            <input type="text" class="index_search-bar" placeholder="請輸入關鍵字" name="search" value="<?php echo htmlspecialchars($search_keyword); ?>">
-            <button type="submit" class="index_search-but">搜尋</button>
-        </div>
+    <!-- 搜尋框-->
+    <form id="search-form" method="GET" style="max-width:900px; margin: 20px auto 30px; display:flex; align-items:center; gap:12px;">
+        <input
+            type="text"
+            class="index_search-bar"
+            placeholder="請輸入關鍵字"
+            name="search"
+            value="<?php echo htmlspecialchars($search_keyword); ?>"
+            style="flex-grow:1; padding:8px 12px; font-size:1rem; border:1px solid #ccc; border-radius:6px;" />
+        <select
+            name="sort_order"
+            onchange="this.form.submit()"
+            style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; font-size:1rem; cursor:pointer;">
+            <option value="DESC" <?php if ($sort_order === 'DESC') echo 'selected'; ?>>時間 ↓</option>
+            <option value="ASC" <?php if ($sort_order === 'ASC') echo 'selected'; ?>>時間 ↑ </option>
+        </select>
+        <button
+            type="submit"
+            class="index_search-but"
+            style="padding:8px 18px; border-radius:6px; background:#ff7f50; color:#fff; border:none; cursor:pointer; font-size:1rem;">搜尋</button>
     </form>
-
-
-    <!-- 公告列表 -->
+    <!-- 最新消息標題 -->
     <div class="index_main-news">
         <div class="index_main-news-title">最新消息</div>
 
@@ -45,13 +61,13 @@ $result = mysqli_query($conn, $sql);
                 <div class="index_main-news-mess">
                     <div class="index-mess-left" onclick="window.location.href='ann_post.php?id=<?php echo $row['id']; ?>'">
                         <div class="index_mess-date"><?php echo $row['date']; ?></div>
-                        <div class="index_mess-title"><?php echo $row['title']; ?></div>
+                        <div class="index_mess-title"><?php echo htmlspecialchars($row['title']); ?></div>
                     </div>
                     <div class="index-mess-right">
-                    <?php
+                        <?php
                         if (isset($_SESSION['acc']) && $row['accounts'] == $_SESSION['acc']) {
-                            ?>
-                            <?php render_edit_form($row); ?>
+                            render_edit_form($row);
+                        ?>
                             <div class='but-delete' onclick="window.location.href='ann_delete.php?id=<?php echo $row['id']; ?>'">刪除</div>
                         <?php } ?>
                     </div>
@@ -68,29 +84,32 @@ $result = mysqli_query($conn, $sql);
     </form>
 
     <!-- 只有管理員身分才顯示新增公告按鈕 -->
-   <?php
+    <?php
     if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) {
         include('ann_add.php');
     } ?>
     <!-- 只有學生身分才顯示新增建言按鈕 -->
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
-        <?php include('eve_add.php'); ?> 
+        <?php include('eve_add.php'); ?>
     <?php endif; ?>
 
     <!-- JavaScript 載入 -->
     <script>
-    function openForm() {
-        document.getElementById("formContainer").style.display = "block";
-    }
-    function closeForm() {
-        document.getElementById("formContainer").style.display = "none";
-    }
-    function openForm2(id) {
-        document.getElementById("formContainer2_" + id).style.display = "block";
-    }
-    function closeForm2(id) {
-        document.getElementById("formContainer2_" + id).style.display = "none";
-    }
+        function openForm() {
+            document.getElementById("formContainer").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("formContainer").style.display = "none";
+        }
+
+        function openForm2(id) {
+            document.getElementById("formContainer2_" + id).style.display = "block";
+        }
+
+        function closeForm2(id) {
+            document.getElementById("formContainer2_" + id).style.display = "none";
+        }
     </script>
 </body>
 
