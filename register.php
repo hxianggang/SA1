@@ -38,10 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 如果信箱已經註冊
         $error_message = "該電子信箱已被註冊";
     } else {
-        // 密碼加密並插入資料庫
+        // 密碼加密
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO user (accounts, password, gmail) VALUES ('$account', '$password_hash', '$email')";
-        if ($conn->query($sql) === TRUE) {
+
+        // 權限固定為 '1'，name 設為帳號(學號)
+        $permissions = '1';
+        $name = $account;
+
+        // 使用 prepared statement 寫入資料庫
+        $sql = "INSERT INTO user (accounts, password, gmail, permissions, name) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sssss', $account, $password_hash, $email, $permissions, $name);
+
+        if ($stmt->execute()) {
             header('Location: login.php');
             exit;
         } else {
@@ -90,4 +99,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 
-</html> 
+</html>
