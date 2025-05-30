@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-28 11:10:50
+-- 產生時間： 2025-05-30 10:02:36
 -- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.1.25
+-- PHP 版本： 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,34 @@ CREATE TABLE `announcements` (
 
 INSERT INTO `announcements` (`id`, `title`, `content`, `date`, `created_at`, `accounts`) VALUES
 (49, 'asd', 'qwe', '2025-05-26', '2025-05-26 01:24:09', 567),
-(50, '123', '123', '2025-05-26', '2025-05-26 01:26:34', 567);
+(50, '123', '123', '2025-05-26', '2025-05-26 01:26:34', 567),
+(51, '555', '555', '2025-05-30', '2025-05-29 19:05:16', 8);
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `appeals`
+--
+
+CREATE TABLE `appeals` (
+  `appeal_id` int(11) NOT NULL,
+  `e_id` int(50) NOT NULL,
+  `accounts` int(50) NOT NULL,
+  `appeal_text` text NOT NULL,
+  `appeal_date` datetime DEFAULT current_timestamp(),
+  `status` varchar(20) DEFAULT 'pending',
+  `reply_text` text DEFAULT NULL,
+  `reply_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `appeals`
+--
+
+INSERT INTO `appeals` (`appeal_id`, `e_id`, `accounts`, `appeal_text`, `appeal_date`, `status`, `reply_text`, `reply_date`) VALUES
+(1, 41, 1, '1j7', '2025-05-30 13:39:23', 'rejected', '1', '2025-05-30 14:45:32'),
+(2, 42, 2, '88', '2025-05-30 14:52:12', 'pending', NULL, NULL),
+(3, 38, 1, '1', '2025-05-30 15:12:30', 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -63,7 +90,11 @@ CREATE TABLE `audit` (
 --
 
 INSERT INTO `audit` (`a_id`, `e_id`, `situation`, `reason`, `a_acc`) VALUES
-(26, 35, 5, '567', 567);
+(26, 35, 5, '567', 567),
+(28, 40, 4, '1', 8),
+(29, 38, 2, '不要', 8),
+(30, 41, 2, '不要', 8),
+(31, 42, 2, '88', 8);
 
 -- --------------------------------------------------------
 
@@ -90,8 +121,11 @@ INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accoun
 (35, '1', '123', '2025-05-13', '', 123, 1),
 (36, '2', '234', '2025-05-13', '', 234, 0),
 (37, '123', '123', '2025-05-13', '', 123, 0),
-(38, 'asdlkjdslkasdjlsad', 'adgf a gdf', '2025-05-26', '', 123, 0),
-(39, '可愛小貓咪', 'weewf', '2025-05-26', '', 123, 0);
+(38, 'asdlkjdslkasdjlsad', 'adgf a gdf', '2025-05-26', '', 123, 1),
+(39, '可愛小貓咪', 'weewf', '2025-05-26', '', 123, 0),
+(40, '1', '1', '2025-05-29', '', 1, 1),
+(41, '22', '22', '2025-05-29', '', 1, 1),
+(42, '33', '333', '2025-05-30', '', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +209,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALUES
-(8, '8@8', '$2y$10$OFar6SNf1aypk2X0KBR.XOadLXzKjlp.ZJLUpqZO0lYyv/zKmwwoK', '', ''),
+(1, '1@1', '$2y$10$yfjI3bAAMTUpnV/8NGGul.zFzWjzeHyRSCxNh.maa5D.KUqIanHmu', '1', '1'),
+(2, '2@2', '$2y$10$0XLvGsGAnd9PA0UfjFCkBOrDd95DBcVfxXf3.2j0DeD1n9llaaRDi', '1', '2'),
+(8, '8@8', '$2y$10$OFar6SNf1aypk2X0KBR.XOadLXzKjlp.ZJLUpqZO0lYyv/zKmwwoK', '2', '8'),
 (123, '123', '123', '1', '爆豪勝己'),
 (234, '234', '234', '1', '綠谷出久'),
 (456, '456', '456', '2', '相澤消太'),
@@ -199,7 +235,14 @@ CREATE TABLE `vote` (
 
 INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
 (16, 36, 234),
-(17, 37, 123);
+(17, 37, 123),
+(18, 40, 1),
+(19, 41, 1),
+(20, 36, 1),
+(21, 38, 1),
+(22, 42, 2),
+(23, 41, 2),
+(24, 35, 2);
 
 --
 -- 已傾印資料表的索引
@@ -211,6 +254,14 @@ INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
 ALTER TABLE `announcements`
   ADD PRIMARY KEY (`id`),
   ADD KEY `accounts` (`accounts`);
+
+--
+-- 資料表索引 `appeals`
+--
+ALTER TABLE `appeals`
+  ADD PRIMARY KEY (`appeal_id`),
+  ADD KEY `fk_appeals_event` (`e_id`),
+  ADD KEY `fk_appeals_user` (`accounts`);
 
 --
 -- 資料表索引 `audit`
@@ -270,19 +321,25 @@ ALTER TABLE `vote`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `appeals`
+--
+ALTER TABLE `appeals`
+  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `event`
 --
 ALTER TABLE `event`
-  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `fundraising`
@@ -300,7 +357,7 @@ ALTER TABLE `log`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=18;
+  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=25;
 
 --
 -- 已傾印資料表的限制式
@@ -311,6 +368,13 @@ ALTER TABLE `vote`
 --
 ALTER TABLE `announcements`
   ADD CONSTRAINT `announcements_ibfk_1` FOREIGN KEY (`accounts`) REFERENCES `user` (`accounts`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- 資料表的限制式 `appeals`
+--
+ALTER TABLE `appeals`
+  ADD CONSTRAINT `fk_appeals_event` FOREIGN KEY (`e_id`) REFERENCES `event` (`e_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_appeals_user` FOREIGN KEY (`accounts`) REFERENCES `user` (`accounts`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `audit`
