@@ -46,15 +46,36 @@ ORDER BY $order_by
 ";
 $result_vote = mysqli_query($conn, $sql_vote);
 
-// SQL 查詢語句：已結束 e_type=1
+// SQL 查詢語句：已結束 e_type=1，加入 audit.situation
 $sql_end = "
 SELECT e.*,
-  (SELECT COUNT(*) FROM vote v WHERE v.e_id = e.e_id) AS vote_count
+  (SELECT COUNT(*) FROM vote v WHERE v.e_id = e.e_id) AS vote_count,
+  (SELECT a.situation FROM audit a WHERE a.e_id = e.e_id LIMIT 1) AS audit_situation
 FROM event e
 WHERE e_type=1 $search_sql
 ORDER BY $order_by
 ";
 $result_end = mysqli_query($conn, $sql_end);
+
+function auditSituationToChinese($situation)
+{
+    if ($situation === null) {
+        return '尚未審核';
+    }
+    $situation = intval($situation);
+    return match ($situation) {
+        1 => '待審核',
+        2 => '拒絕',
+        3 => '通過',
+        4 => '已制定計畫',
+        5 => '正在募資中',
+        6 => '計畫進行中',
+        7 => '申訴期間',
+        8 => '建言已結案',
+        default => '未知狀態',
+    };
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +143,7 @@ $result_end = mysqli_query($conn, $sql_end);
                             <div class="index_mess-title"><?php echo htmlspecialchars($row['e_title']); ?></div>
                         </div>
                         <div class="index-mess-right">
-                            <div class="index_mess-date">投票數：<?php echo $row['vote_count']; ?></div>
+                            <div class="index_mess-date">案件狀態：<?php echo auditSituationToChinese($row['audit_situation']); ?></div>
                         </div>
                     </div>
             <?php

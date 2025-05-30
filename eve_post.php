@@ -22,7 +22,21 @@
     $sql = "SELECT * FROM event e, user u WHERE e.e_id = '$e_id' AND u.accounts = e.accounts";
     $result = mysqli_query($conn, $sql);
 
+    // 申訴狀態中文轉換函式，只針對三個狀態
+    function appealStatusToChinese($status)
+    {
+        return match ($status) {
+            'pending' => '待處理',
+            'resolved' => '已處理',
+            'rejected' => '駁回',
+            default => htmlspecialchars($status),
+        };
+    }
+
     while ($row = mysqli_fetch_assoc($result)) {
+        // 建言提出者帳號
+        $proposer_acc = $row['accounts'];
+
         // 查詢該建言審核狀態
         $sqlAudit = "SELECT * FROM audit WHERE e_id = '$e_id'";
         $resultAudit = mysqli_query($conn, $sqlAudit);
@@ -78,8 +92,8 @@
                     }         // end if permission = 1
                     ?>
 
-                    <!-- 申訴功能：只在「被拒絕」時，且使用者沒申訴過，顯示申訴表單 -->
-                    <?php if ($_SESSION['permissions'] == 1 && isset($rowAudit['situation']) && $rowAudit['situation'] == 2): ?>
+                    <!-- 申訴功能：只在「被拒絕」時，且使用者是建言提出者，且使用者沒申訴過，顯示申訴表單 -->
+                    <?php if ($_SESSION['permissions'] == 1 && isset($rowAudit['situation']) && $rowAudit['situation'] == 2 && $_SESSION['acc'] === $proposer_acc): ?>
                         <div class="appeal-section" style="margin-top:20px; padding:10px; border:1px solid #ccc; border-radius:6px;">
                             <h3>申訴此建言</h3>
                             <?php if (!$hasAppealed): ?>
@@ -92,7 +106,7 @@
                             <?php else:
                                 $appeal = mysqli_fetch_assoc($appeal_result);
                             ?>
-                                <p><strong>您已提交申訴，狀態：<?= htmlspecialchars($appeal['status']) ?></strong></p>
+                                <p><strong>您已提交申訴，狀態：<?= appealStatusToChinese($appeal['status']) ?></strong></p>
                                 <?php if (!empty($appeal['reply_text'])): ?>
                                     <p><strong>管理者回覆：</strong><br><?= nl2br(htmlspecialchars($appeal['reply_text'])) ?></p>
                                 <?php endif; ?>

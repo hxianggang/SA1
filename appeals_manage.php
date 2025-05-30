@@ -6,7 +6,18 @@ if (!isset($_SESSION['permissions']) || $_SESSION['permissions'] != 2) {
 }
 
 include('db.php');
-include('header.php'); // 加入你的header檔案
+include('header.php');
+
+// 狀態中文對照函式
+function statusToChinese($status)
+{
+    return match ($status) {
+        'pending' => '待處理',
+        'resolved' => '已處理',
+        'rejected' => '駁回',
+        default => htmlspecialchars($status),
+    };
+}
 
 // 取得所有申訴列表
 $sql = "SELECT a.appeal_id, e.e_title, u.name, a.appeal_date, a.status
@@ -61,7 +72,7 @@ if ($view_id > 0) {
         }
 
         tbody tr:nth-child(odd) {
-            background-color:rgb(186, 184, 183);  
+            background-color: rgb(186, 184, 183);
         }
 
         tr:hover {
@@ -95,7 +106,7 @@ if ($view_id > 0) {
                     <td><?= htmlspecialchars($row['e_title']) ?></td>
                     <td><?= htmlspecialchars($row['name']) ?></td>
                     <td><?= htmlspecialchars($row['appeal_date']) ?></td>
-                    <td><?= htmlspecialchars($row['status']) ?></td>
+                    <td><?= statusToChinese($row['status']) ?></td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
@@ -108,7 +119,7 @@ if ($view_id > 0) {
             <p><strong>建言標題：</strong><?= htmlspecialchars($detail['e_title']) ?></p>
             <p><strong>申訴者：</strong><?= htmlspecialchars($detail['name']) ?></p>
             <p><strong>申訴內容：</strong><br><?= nl2br(htmlspecialchars($detail['appeal_text'])) ?></p>
-            <p><strong>申訴狀態：</strong><?= htmlspecialchars($detail['status']) ?></p>
+            <p><strong>申訴狀態：</strong><?= statusToChinese($detail['status']) ?></p>
             <p><strong>申訴日期：</strong><?= htmlspecialchars($detail['appeal_date']) ?></p>
 
             <form method="POST" action="appeal_reply_process.php">
