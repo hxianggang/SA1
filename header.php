@@ -30,19 +30,20 @@ $is_logged_in = isset($_SESSION['name']);
         <!-- 功能列表 -->
         <div class="header_links">
             <!--使用者-->
-            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1){ ?>
-            <a href="vote.php" class="header_link">投票專區</a>
+            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1) { ?>
+                <a href="vote.php" class="header_link">投票專區</a>
             <?php } ?>
             <!--管理者-->
-            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2){ ?>
-            <a href="event.php" class="header_link">審核建言</a>
+            <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 2) { ?>
+                <a href="event.php" class="header_link">審核建言</a>
+                <a href="appeals_manage.php" class="header_link">申訴管理</a>
             <?php } ?>
             <a href="fundraise.php" class="header_link">募資專區</a>
 
             <?php if ($is_logged_in): ?>
                 <!-- 顯示學號並跳轉到個人資訊 -->
                 <a href="self.php" class="header_link"><?php echo $_SESSION['name']; ?></a>
-                <!-- 顯示登出圖示 --> 
+                <!-- 顯示登出圖示 -->
                 <div class="header_logout-icon" onclick="showLogoutConfirm()"></div>
             <?php else: ?>
                 <!-- 顯示登入 -->
