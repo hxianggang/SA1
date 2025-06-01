@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() == PHP_SESSION_NONE) //session_start();
 
 if (!isset($_SESSION['name']) || $_SESSION['permissions'] != 1) {
     header("Location: login.php");
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['acc'];
     $sql="insert event(e_title,e_text,accounts,e_time) values('$e_title','$e_text','$user_id',NOW())";
     if(mysqli_query($conn,$sql)){
-        $targetPage = 'event.php';
+        $targetPage = 'my_topics.php';
         header('Location: ' . $targetPage);
     exit();
     }else{

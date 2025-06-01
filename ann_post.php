@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言2.0</title>
-    <link rel="stylesheet" href="../php_test/new.css">
+    <link rel="stylesheet" href="../php_test/setting.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,10 +34,6 @@
                 <!--內文-->
                 <div class="message-info"><?php echo $row['content']; ?></div>
 
-                <!--檔案上傳-->
-                <div class="message-docu">
-                    <a href="C:\Users\User\Downloads\img_main_pc (1).png" download="main.png"><i class='bx bx-download' ></i>下載附件</a>
-                </div>
             </div>
 
             <!--之後可以放募資消息-->

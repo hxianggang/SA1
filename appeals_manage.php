@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION['permissions']) || $_SESSION['permissions'] != 2) {
     header("Location: login.php");
     exit();
@@ -74,7 +73,8 @@ if ($view_id > 0) {
 <head>
     <meta charset="UTF-8" />
     <title>申訴管理</title>
-    <link rel="stylesheet" href="new.css" />
+    <link rel="stylesheet" href="setting.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <style>
         table {
             width: 100%;
@@ -137,107 +137,117 @@ if ($view_id > 0) {
             border-color: #666;
             pointer-events: none;
         }
+
+        .p15{
+            padding: 15px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>申訴管理</h1>
+    <main>
+            <div class="message-page">
+                <div class="message-page-left p15">
+                    <h1>申訴管理</h1>
 
-    <!-- 排序選單 -->
-    <div style="display:flex; justify-content: flex-end; margin-bottom: 10px;">
-        <label for="sort_order">申訴日期排序：</label>
-        <select id="sort_order" name="sort_order" style="margin-left: 6px;">
-            <option value="date_desc" <?= $sort_order === 'date_desc' ? 'selected' : '' ?>>最新到最舊</option>
-            <option value="date_asc" <?= $sort_order === 'date_asc' ? 'selected' : '' ?>>最舊到最新</option>
-        </select>
-    </div>
+                    <!-- 排序選單 -->
+                    <div style="margin-bottom: 10px;" >
+                        <label for="sort_order">申訴日期排序：</label>
+                        <select id="sort_order" name="sort_order" style="margin-left: 6px;">
+                            <option value="date_desc" <?= $sort_order === 'date_desc' ? 'selected' : '' ?>>最新到最舊</option>
+                            <option value="date_asc" <?= $sort_order === 'date_asc' ? 'selected' : '' ?>>最舊到最新</option>
+                        </select>
+                    </div>
+                    <!-- 申訴列表表格 -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>建言標題</th>
+                                <th>申訴者</th>
+                                <th>申訴日期</th>
+                                <th>申訴狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <tr onclick="window.location='appeals_manage.php?appeal_id=<?= $row['appeal_id'] ?>&page=<?= $page ?>&sort_order=<?= $sort_order ?>'">
+                                    <td><?= htmlspecialchars($row['e_title']) ?></td>
+                                    <td><?= htmlspecialchars($row['name']) ?></td>
+                                    <td><?= htmlspecialchars($row['appeal_date']) ?></td>
+                                    <td><?= statusToChinese($row['status']) ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?= $page - 1 ?>&sort_order=<?= $sort_order ?>">&laquo; 上一頁</a>
+                        <?php endif; ?>
 
-    <!-- 申訴列表表格 -->
-    <table>
-        <thead>
-            <tr>
-                <th>建言標題</th>
-                <th>申訴者</th>
-                <th>申訴日期</th>
-                <th>申訴狀態</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr onclick="window.location='appeals_manage.php?appeal_id=<?= $row['appeal_id'] ?>&page=<?= $page ?>&sort_order=<?= $sort_order ?>'">
-                    <td><?= htmlspecialchars($row['e_title']) ?></td>
-                    <td><?= htmlspecialchars($row['name']) ?></td>
-                    <td><?= htmlspecialchars($row['appeal_date']) ?></td>
-                    <td><?= statusToChinese($row['status']) ?></td>
-                </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+                        <?php
+                        $start_page = max(1, $page - 3);
+                        $end_page = min($total_pages, $page + 3);
 
-    <!-- 分頁導覽 -->
-    <div class="pagination">
-        <?php if ($page > 1): ?>
-            <a href="?page=<?= $page - 1 ?>&sort_order=<?= $sort_order ?>">&laquo; 上一頁</a>
-        <?php endif; ?>
+                        if ($start_page > 1) {
+                            echo '<a href="?page=1&sort_order=' . $sort_order . '">1</a>';
+                            if ($start_page > 2) {
+                                echo '<span>...</span>';
+                            }
+                        }
 
-        <?php
-        $start_page = max(1, $page - 3);
-        $end_page = min($total_pages, $page + 3);
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            if ($i == $page) {
+                                echo '<span class="current-page">' . $i . '</span>';
+                            } else {
+                                echo '<a href="?page=' . $i . '&sort_order=' . $sort_order . '">' . $i . '</a>';
+                            }
+                        }
 
-        if ($start_page > 1) {
-            echo '<a href="?page=1&sort_order=' . $sort_order . '">1</a>';
-            if ($start_page > 2) {
-                echo '<span>...</span>';
-            }
-        }
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<span>...</span>';
+                            }
+                            echo '<a href="?page=' . $total_pages . '&sort_order=' . $sort_order . '">' . $total_pages . '</a>';
+                        }
+                        ?>
 
-        for ($i = $start_page; $i <= $end_page; $i++) {
-            if ($i == $page) {
-                echo '<span class="current-page">' . $i . '</span>';
-            } else {
-                echo '<a href="?page=' . $i . '&sort_order=' . $sort_order . '">' . $i . '</a>';
-            }
-        }
+                        <?php if ($page < $total_pages): ?>
+                            <a href="?page=<?= $page + 1 ?>&sort_order=<?= $sort_order ?>">下一頁 &raquo;</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-        if ($end_page < $total_pages) {
-            if ($end_page < $total_pages - 1) {
-                echo '<span>...</span>';
-            }
-            echo '<a href="?page=' . $total_pages . '&sort_order=' . $sort_order . '">' . $total_pages . '</a>';
-        }
-        ?>
+                <!--管理員審核-->
+                <div class="message-page-right">
+                    <!-- 申訴詳細資料與回覆表單 -->
+                    <?php if ($detail): ?>
+                        <div class="detail-container">
+                            <h2>申訴詳情</h2>
+                            <p><strong>建言標題：</strong><?= htmlspecialchars($detail['e_title']) ?></p>
+                            <p><strong>申訴者：</strong><?= htmlspecialchars($detail['name']) ?></p>
+                            <p><strong>申訴內容：</strong><br><?= nl2br(htmlspecialchars($detail['appeal_text'])) ?></p>
+                            <p><strong>申訴狀態：</strong><?= statusToChinese($detail['status']) ?></p>
+                            <p><strong>申訴日期：</strong><?= htmlspecialchars($detail['appeal_date']) ?></p>
 
-        <?php if ($page < $total_pages): ?>
-            <a href="?page=<?= $page + 1 ?>&sort_order=<?= $sort_order ?>">下一頁 &raquo;</a>
-        <?php endif; ?>
-    </div>
-
-    <!-- 申訴詳細資料與回覆表單 -->
-    <?php if ($detail): ?>
-        <div class="detail-container">
-            <h2>申訴詳情</h2>
-            <p><strong>建言標題：</strong><?= htmlspecialchars($detail['e_title']) ?></p>
-            <p><strong>申訴者：</strong><?= htmlspecialchars($detail['name']) ?></p>
-            <p><strong>申訴內容：</strong><br><?= nl2br(htmlspecialchars($detail['appeal_text'])) ?></p>
-            <p><strong>申訴狀態：</strong><?= statusToChinese($detail['status']) ?></p>
-            <p><strong>申訴日期：</strong><?= htmlspecialchars($detail['appeal_date']) ?></p>
-
-            <form method="POST" action="appeal_reply_process.php">
-                <input type="hidden" name="appeal_id" value="<?= $detail['appeal_id'] ?>" />
-                <label for="reply_text">回覆內容：</label><br>
-                <textarea name="reply_text" id="reply_text" rows="5" style="width:100%;"><?= htmlspecialchars($detail['reply_text']) ?></textarea><br>
-                <label for="status">更新狀態：</label>
-                <select name="status" id="status">
-                    <option value="pending" <?= $detail['status'] === 'pending' ? 'selected' : '' ?>>待處理</option>
-                    <option value="resolved" <?= $detail['status'] === 'resolved' ? 'selected' : '' ?>>已處理</option>
-                    <option value="rejected" <?= $detail['status'] === 'rejected' ? 'selected' : '' ?>>駁回</option>
-                </select><br><br>
-                <button type="submit">送出回覆</button>
-            </form>
-        </div>
-    <?php else: ?>
-        <p>請點選上方申訴列表查看詳細內容。</p>
-    <?php endif; ?>
+                            <form method="POST" action="appeal_reply_process.php">
+                                <input type="hidden" name="appeal_id" value="<?= $detail['appeal_id'] ?>" />
+                                <label for="reply_text">回覆內容：</label><br>
+                                <textarea name="reply_text" id="reply_text" rows="5" style="width:100%;"><?= htmlspecialchars($detail['reply_text']) ?></textarea><br>
+                                <label for="status">更新狀態：</label>
+                                <select name="status" id="status">
+                                    <option value="pending" <?= $detail['status'] === 'pending' ? 'selected' : '' ?>>待處理</option>
+                                    <option value="resolved" <?= $detail['status'] === 'resolved' ? 'selected' : '' ?>>已處理</option>
+                                    <option value="rejected" <?= $detail['status'] === 'rejected' ? 'selected' : '' ?>>駁回</option>
+                                </select><br><br>
+                                <button type="submit">送出回覆</button>
+                            </form>
+                        </div>
+                    <?php else: ?>
+                        <p>請點選上方申訴列表查看詳細內容。</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </main>
 
     <script>
         document.getElementById('sort_order').addEventListener('change', function() {

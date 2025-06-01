@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言2.0</title>
-    <link rel="stylesheet" href="../php_test/new.css">
+    <link rel="stylesheet" href="../php_test/setting.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,60 +61,6 @@
 
                     <!--內文-->
                     <div class="message-info"><?php echo nl2br(htmlspecialchars($row['e_text'])); ?></div>
-
-                    <!--檔案上傳-->
-                    <div class="message-docu">
-                        <a href="C:\Users\User\Downloads\img_main_pc (1).png" download="main.png"><i class='bx bx-download'></i>下載附件</a>
-                    </div>
-
-                    <!--使用者附議建言 沒投過該建言的才出現-->
-                    <?php
-                    if ($_SESSION['permissions'] == 1) {
-                        $user_acc = $_SESSION['acc'];
-                        $sql2 = "SELECT * FROM vote WHERE e_id = '$e_id' AND v_stu = '$user_acc'";
-                        $result2 = mysqli_query($conn, $sql2);
-
-                        if (mysqli_num_rows($result2) === 0) {
-                            $eventDate = new DateTime($row['e_time']);
-                            $now = new DateTime();
-                            $interval = $eventDate->diff($now);
-                            $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
-
-                            if (!$isOverThreeMonths) {
-                    ?>
-                                <form id="suggestionForm" method="POST" action="vot_process_add.php">
-                                    <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>"><br><br>
-                                    <button class="eve_post_but" type="submit">附議</button>
-                                </form>
-                    <?php
-                            } // end if !$isOverThreeMonths
-                        }     // end if result2 empty
-                    }         // end if permission = 1
-                    ?>
-
-                    <!-- 申訴功能：只在「被拒絕」時，且使用者是建言提出者，且使用者沒申訴過，顯示申訴表單 -->
-                    <?php if ($_SESSION['permissions'] == 1 && isset($rowAudit['situation']) && $rowAudit['situation'] == 2 && $_SESSION['acc'] === $proposer_acc): ?>
-                        <div class="appeal-section" style="margin-top:20px; padding:10px; border:1px solid #ccc; border-radius:6px;">
-                            <h3>申訴此建言</h3>
-                            <?php if (!$hasAppealed): ?>
-                                <form method="POST" action="appeal_process_add.php">
-                                    <input type="hidden" name="e_id" value="<?= htmlspecialchars($e_id) ?>">
-                                    <label for="appeal_text">申訴理由：</label><br>
-                                    <textarea id="appeal_text" name="appeal_text" required rows="5" style="width:100%;"></textarea><br><br>
-                                    <button type="submit" class="eve_post_but">提交申訴</button>
-                                </form>
-                            <?php else:
-                                $appeal = mysqli_fetch_assoc($appeal_result);
-                            ?>
-                                <p><strong>您已提交申訴，狀態：<?= appealStatusToChinese($appeal['status']) ?></strong></p>
-                                <?php if (!empty($appeal['reply_text'])): ?>
-                                    <p><strong>管理者回覆：</strong><br><?= nl2br(htmlspecialchars($appeal['reply_text'])) ?></p>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
-
-
                 </div>
 
                 <!--管理員審核-->
@@ -160,6 +106,54 @@
                             }
                         }
                     }
+                    ?>
+                    <!-- 申訴功能：只在「被拒絕」時，且使用者是建言提出者，且使用者沒申訴過，顯示申訴表單 -->
+                    <?php if ($_SESSION['permissions'] == 1 && isset($rowAudit['situation']) && $rowAudit['situation'] == 2 && $_SESSION['acc'] === $proposer_acc): ?>
+                        <div class="appeal-section" class="aud-form">
+                            <h3>申訴此建言</h3>
+                            <?php if (!$hasAppealed): ?>
+                                <form method="POST" action="appeal_process_add.php">
+                                    <input type="hidden" name="e_id" value="<?= htmlspecialchars($e_id) ?>">
+                                    <label for="appeal_text">申訴理由：</label><br>
+                                    <textarea id="appeal_text" name="appeal_text" required rows="5" style="width:100%;"></textarea><br><br>
+                                    <button type="submit" class="eve_post_but">提交</button>
+                                </form>
+                            <?php else:
+                                $appeal = mysqli_fetch_assoc($appeal_result);
+                            ?>
+                                <p><strong>您已提交申訴，狀態：<?= appealStatusToChinese($appeal['status']) ?></strong></p>
+                                <?php if (!empty($appeal['reply_text'])): ?>
+                                    <p><strong>管理者回覆：</strong><br><?= nl2br(htmlspecialchars($appeal['reply_text'])) ?></p>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                    <!--使用者附議建言 沒投過該建言的才出現-->
+                    <?php
+                    if ($_SESSION['permissions'] == 1) {
+                        $user_acc = $_SESSION['acc'];
+                        $sql2 = "SELECT * FROM vote WHERE e_id = '$e_id' AND v_stu = '$user_acc'";
+                        $result2 = mysqli_query($conn, $sql2);
+                        $sql3 = "SELECT * FROM audit WHERE e_id = '$e_id'";
+                        $result3 = mysqli_query($conn, $sql3);
+                        $row3 = mysqli_fetch_assoc($result3);
+
+                        if (mysqli_num_rows($result2) === 0) {
+                            $eventDate = new DateTime($row['e_time']);
+                            $now = new DateTime();
+                            $interval = $eventDate->diff($now);
+                            $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
+
+                            if (!$isOverThreeMonths && !isset($row3['situation'])) {
+                    ?>
+                                <form id="suggestionForm" method="POST" action="vot_process_add.php">
+                                    <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>"><br><br>
+                                    <button class="eve_post_but" type="submit">附議</button>
+                                </form>
+                    <?php
+                            } // end if !$isOverThreeMonths
+                        }     // end if result2 empty
+                    }         // end if permission = 1
                     ?>
                 </div>
             </div>

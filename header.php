@@ -1,7 +1,7 @@
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    //session_start();
 }
 $is_logged_in = isset($_SESSION['name']);
 ?>
@@ -13,7 +13,7 @@ $is_logged_in = isset($_SESSION['name']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言系統</title>
-    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="setting.css">
 </head>
 
 <body>

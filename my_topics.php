@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    // session_start();
 }
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
@@ -59,7 +59,7 @@ $result = mysqli_query($conn, $sql);
 <head>
     <meta charset="UTF-8">
     <title>我的議題</title>
-    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="setting.css">
 </head>
 
 <body class="mytopics_body">

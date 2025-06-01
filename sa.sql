@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-05-30 10:02:36
+-- 產生時間： 2025-06-01 04:39:02
 -- 伺服器版本： 10.4.32-MariaDB
--- PHP 版本： 8.2.12
+-- PHP 版本： 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,19 +31,10 @@ CREATE TABLE `announcements` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `accounts` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `announcements`
---
-
-INSERT INTO `announcements` (`id`, `title`, `content`, `date`, `created_at`, `accounts`) VALUES
-(49, 'asd', 'qwe', '2025-05-26', '2025-05-26 01:24:09', 567),
-(50, '123', '123', '2025-05-26', '2025-05-26 01:26:34', 567),
-(51, '555', '555', '2025-05-30', '2025-05-29 19:05:16', 8);
 
 -- --------------------------------------------------------
 
@@ -67,9 +58,7 @@ CREATE TABLE `appeals` (
 --
 
 INSERT INTO `appeals` (`appeal_id`, `e_id`, `accounts`, `appeal_text`, `appeal_date`, `status`, `reply_text`, `reply_date`) VALUES
-(1, 41, 1, '1j7', '2025-05-30 13:39:23', 'rejected', '1', '2025-05-30 14:45:32'),
-(2, 42, 2, '88', '2025-05-30 14:52:12', 'pending', NULL, NULL),
-(3, 38, 1, '1', '2025-05-30 15:12:30', 'pending', NULL, NULL);
+(5, 48, 1, '123', '2025-06-01 10:25:30', 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,11 +79,7 @@ CREATE TABLE `audit` (
 --
 
 INSERT INTO `audit` (`a_id`, `e_id`, `situation`, `reason`, `a_acc`) VALUES
-(26, 35, 5, '567', 567),
-(28, 40, 4, '1', 8),
-(29, 38, 2, '不要', 8),
-(30, 41, 2, '不要', 8),
-(31, 42, 2, '88', 8);
+(34, 48, 2, 'uyj', 8);
 
 -- --------------------------------------------------------
 
@@ -106,8 +91,7 @@ CREATE TABLE `event` (
   `e_id` int(50) NOT NULL,
   `e_title` varchar(100) NOT NULL COMMENT '標題',
   `e_text` varchar(500) NOT NULL COMMENT '內文',
-  `e_time` date NOT NULL COMMENT '日期',
-  `e_picture` blob NOT NULL COMMENT '圖片',
+  `e_time` datetime NOT NULL COMMENT '日期',
   `accounts` int(50) NOT NULL COMMENT '提案人帳號',
   `e_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -116,16 +100,9 @@ CREATE TABLE `event` (
 -- 傾印資料表的資料 `event`
 --
 
-INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `e_picture`, `accounts`, `e_type`) VALUES
-(33, 'ruby醬', 'はい', '2025-01-01', '', 123, 1),
-(35, '1', '123', '2025-05-13', '', 123, 1),
-(36, '2', '234', '2025-05-13', '', 234, 0),
-(37, '123', '123', '2025-05-13', '', 123, 0),
-(38, 'asdlkjdslkasdjlsad', 'adgf a gdf', '2025-05-26', '', 123, 1),
-(39, '可愛小貓咪', 'weewf', '2025-05-26', '', 123, 0),
-(40, '1', '1', '2025-05-29', '', 1, 1),
-(41, '22', '22', '2025-05-29', '', 1, 1),
-(42, '33', '333', '2025-05-30', '', 2, 1);
+INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `accounts`, `e_type`) VALUES
+(48, '123', '123', '2025-06-01 10:24:52', 1, 1),
+(49, '234', '234', '2025-06-01 10:29:35', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -138,21 +115,12 @@ CREATE TABLE `fundraising` (
   `e_id` int(50) NOT NULL COMMENT '引用資訊',
   `f_title` varchar(100) NOT NULL,
   `f_content` varchar(100) NOT NULL,
-  `f_file` varchar(100) NOT NULL,
   `f_now` int(100) NOT NULL,
   `f_goal` int(100) NOT NULL,
-  `f_date` date NOT NULL,
+  `f_date` datetime NOT NULL,
   `f_cate` int(100) NOT NULL,
   `f_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `fundraising`
---
-
-INSERT INTO `fundraising` (`f_id`, `e_id`, `f_title`, `f_content`, `f_file`, `f_now`, `f_goal`, `f_date`, `f_cate`, `f_type`) VALUES
-(8, 35, '測試', '測試用', '', 100000, 100000, '2025-05-31', 2, 2),
-(9, 35, '測試2', 'test', '', 1000, 1000000, '2025-06-07', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -179,16 +147,8 @@ CREATE TABLE `log` (
   `f_id` int(50) NOT NULL COMMENT '募資編號',
   `l_name` varchar(10) NOT NULL COMMENT '募款者姓名',
   `l_qua` int(100) NOT NULL COMMENT '金額',
-  `l_time` date NOT NULL COMMENT '捐贈時間'
+  `l_time` datetime NOT NULL COMMENT '捐贈時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `log`
---
-
-INSERT INTO `log` (`l_id`, `f_id`, `l_name`, `l_qua`, `l_time`) VALUES
-(11, 8, 'AQ', 100000, '2025-05-26'),
-(12, 9, 'AQ', 1000, '2025-05-26');
 
 -- --------------------------------------------------------
 
@@ -209,7 +169,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALUES
-(1, '1@1', '$2y$10$yfjI3bAAMTUpnV/8NGGul.zFzWjzeHyRSCxNh.maa5D.KUqIanHmu', '1', '1'),
+(1, '1@1', '$2y$10$HaiZs4ZxsS2QCEBehOX/JORW0PhoZV2Q1ygXP52qamf4AWT7wtJ/G', '1', '1'),
 (2, '2@2', '$2y$10$0XLvGsGAnd9PA0UfjFCkBOrDd95DBcVfxXf3.2j0DeD1n9llaaRDi', '1', '2'),
 (8, '8@8', '$2y$10$OFar6SNf1aypk2X0KBR.XOadLXzKjlp.ZJLUpqZO0lYyv/zKmwwoK', '2', '8'),
 (123, '123', '123', '1', '爆豪勝己'),
@@ -234,15 +194,7 @@ CREATE TABLE `vote` (
 --
 
 INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
-(16, 36, 234),
-(17, 37, 123),
-(18, 40, 1),
-(19, 41, 1),
-(20, 36, 1),
-(21, 38, 1),
-(22, 42, 2),
-(23, 41, 2),
-(24, 35, 2);
+(26, 49, 1);
 
 --
 -- 已傾印資料表的索引
@@ -327,19 +279,19 @@ ALTER TABLE `announcements`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `appeals`
 --
 ALTER TABLE `appeals`
-  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `event`
 --
 ALTER TABLE `event`
-  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `fundraising`
@@ -357,7 +309,7 @@ ALTER TABLE `log`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=25;
+  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=27;
 
 --
 -- 已傾印資料表的限制式

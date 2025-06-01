@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() == PHP_SESSION_NONE) //session_start();
 
 if (!isset($_SESSION['name']) || $_SESSION['permissions'] != 2) {
     header("Location: login.php");
@@ -14,8 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['acc'];
     $sql="insert announcements(title,content,accounts,date) values('$title','$content','$user_id',NOW())";
     if(mysqli_query($conn,$sql)){
-        $targetPage = 'index.php';
-        header('Location: ' . $targetPage);
+        echo "<script>window.history.back();</script>";
     exit();
     }else{
 ?>

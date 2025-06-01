@@ -1,6 +1,6 @@
 <?php
 include('db.php');
-session_start();
+// session_start();
 $error_message = ""; // 初始化錯誤訊息變數
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -45,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>登入</title>
-    <link rel="stylesheet" href="new.css" />
+    <link rel="stylesheet" href="setting.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 
 <body class="login_body">
