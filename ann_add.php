@@ -12,7 +12,7 @@ if (!isset($_SESSION['name'])) {
 } ?>
 
 <!-- 這段HTML會顯示在右下角 -->
-<button class="addmes_add-button-right-bottom" onclick="openForm()">+</button>
+<button class="addmes_add-button-right-bottom" onclick="openForm()" title="新增我的議題">+</button>
 
 <!-- 新增公告的表單 -->
 <div id="formContainer" class="addmes_form-container-popup" style="display:none;">
