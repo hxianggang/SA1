@@ -4,9 +4,23 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("formContainer").style.display = "block";
     }
 
-    // 關閉表單
-    function closeForm() {
+    // 關閉表單(新增提議，下方選擇)
+    function closeForm(clear = false) {
         document.getElementById("formContainer").style.display = "none";
+        if (clear) {
+            document.getElementById('suggestionForm').reset(); // 清空表單
+        }
+    }
+    window.confirmCancel = function() {
+        const userChoice = confirm("你要清空資料還是保留？\n\n點擊『確定』：清空資料\n點擊『取消』：保留資料");
+
+        if (userChoice) {
+            // 使用者選擇清空
+            closeForm(true);
+        } else {
+            // 使用者選擇保留
+            closeForm(false);
+        }
     }
 
     function openForm2() {

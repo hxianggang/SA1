@@ -24,7 +24,7 @@ if (!isset($_SESSION['name'])) {
         <textarea id="e_text" name="e_text" required></textarea><br><br>
 
         <button type="submit">提交</button>
-        <button type="button" onclick="closeForm()">取消</button>
+        <button type="button" onclick="confirmCancel()">取消</button>
     </form>
 </div>
 
