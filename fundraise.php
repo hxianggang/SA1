@@ -50,7 +50,7 @@ $total_pages_goal = ceil($total_goal['total'] / $per_page);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>愛校建言系統</title>
-    <link rel="stylesheet" href="new.css" />
+    <link rel="stylesheet" href="setting.css" />
 </head>
 
 <body>

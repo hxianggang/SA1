@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) session_start();
+if (session_status() == PHP_SESSION_NONE) //session_start();
 
 if (!isset($_SESSION['name']) || $_SESSION['permissions'] != 1) {
     header("Location: login.php");

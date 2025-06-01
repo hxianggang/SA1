@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 
 // 清除 session 變數
 session_unset();
