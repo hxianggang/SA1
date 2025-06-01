@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>愛校建言2.0</title>
-    <link rel="stylesheet" href="../php_test/setting.css">
+    <link rel="stylesheet" href="/setting.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,38 +128,49 @@
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
+
                     <!--使用者附議建言 沒投過該建言的才出現-->
                     <?php
                     if ($_SESSION['permissions'] == 1) {
                         $user_acc = $_SESSION['acc'];
+
                         $sql2 = "SELECT * FROM vote WHERE e_id = '$e_id' AND v_stu = '$user_acc'";
                         $result2 = mysqli_query($conn, $sql2);
+
                         $sql3 = "SELECT * FROM audit WHERE e_id = '$e_id'";
                         $result3 = mysqli_query($conn, $sql3);
                         $row3 = mysqli_fetch_assoc($result3);
 
-                        if (mysqli_num_rows($result2) === 0) {
+                        // if (mysqli_num_rows($result2) === 0) {
                             $eventDate = new DateTime($row['e_time']);
                             $now = new DateTime();
                             $interval = $eventDate->diff($now);
                             $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
 
                             if (!$isOverThreeMonths && !isset($row3['situation'])) {
+                                if (mysqli_num_rows($result2) == 0) {
+                                    // 尚未投過票：顯示附議按鈕
                     ?>
-                                <form id="suggestionForm" method="POST" action="vot_process_add.php">
-                                    <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>"><br><br>
-                                    <button class="eve_post_but" type="submit">附議</button>
-                                </form>
-                    <?php
-                            } // end if !$isOverThreeMonths
-                        }     // end if result2 empty
-                    }         // end if permission = 1
+                                    <form id="suggestionForm" method="POST" action="vot_process_add.php">
+                                        <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>">
+                                        <button class="eve_post_but" type="submit">附議</button>
+                                    </form>
+                            <?php
+                                } else {
+                                    // 已投過票：顯示灰色提示框
+                            ?>
+                                    <div class="eve_post_but_disabled">已附議</div>
+                            <?php
+                                }
+                            // }
+                        }     
+                    }     
                     ?>
                 </div>
             </div>
         </main>
 
-    <?php } // end while 
+    <?php } 
     ?>
 
     <script src="../php_test/js/setting.js"></script>

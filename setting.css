@@ -1022,6 +1022,20 @@ body {
     width: 20%;
 }
 
+.eve_post_but_disabled {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #d3d3d3; /* 淺灰色 */
+    color: #555;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    cursor: default;
+    border: none;
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 .aud-form{
     display: flex;
     flex-direction: column;
