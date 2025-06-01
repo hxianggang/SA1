@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 if (!isset($_SESSION['name']) || $_SESSION['permissions'] != 1) {
     header("Location: login.php");
     exit();
@@ -35,4 +35,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('提交失敗，請稍後再試。'); history.back();</script>";
     }
 }
-?>

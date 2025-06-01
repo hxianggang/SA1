@@ -2,7 +2,7 @@
 ob_start();
 // 檢查是否已登入
 if (session_status() == PHP_SESSION_NONE) {
-    //session_start();  // 只在 session 尚未啟動時才呼叫 session_start()
+    session_start();  // 只在 session 尚未啟動時才呼叫 session_start()
 }
 
 if (!isset($_SESSION['name'])) {
@@ -29,5 +29,5 @@ if (!isset($_SESSION['name'])) {
 </div>
 
 <?php
-ob_end_flush(); 
+ob_end_flush();
 ?>

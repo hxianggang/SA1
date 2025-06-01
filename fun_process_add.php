@@ -1,5 +1,5 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) //session_start();
+if (session_status() == PHP_SESSION_NONE) session_start();
 
 if (!isset($_SESSION['name'])) {
     header("Location: login.php");
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['f_name'];
     $date = date("Y-m-d H:i:s");
     $sql = "insert log(f_id,l_name,l_qua,l_time) values('$f_id','$name','$num','$date')";
-    if(mysqli_query($conn,$sql)){
+    if (mysqli_query($conn, $sql)) {
         $update = "UPDATE fundraising SET f_now = f_now+$num WHERE f_id = '$f_id'";
         mysqli_query($conn, $update);
 
@@ -30,10 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $targetPage = 'fundraise.php';
         header('Location: ' . $targetPage);
-    exit();mysqli_close($conn);
-    }else{
+        exit();
+        mysqli_close($conn);
+    } else {
 ?>
-    <script> alert("新增失敗"); history.back(); </script>
+        <script>
+            alert("新增失敗");
+            history.back();
+        </script>
 <?php
-    }}
+    }
+}
 ?>
