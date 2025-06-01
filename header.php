@@ -1,7 +1,7 @@
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    //session_start();
 }
 $is_logged_in = isset($_SESSION['name']);
 ?>
