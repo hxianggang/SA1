@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 if (!isset($_SESSION['name']) || $_SESSION['permissions'] != 1) {
     header("Location: login.php");
     exit();
