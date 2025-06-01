@@ -142,7 +142,7 @@ $total_pages_goal = ceil($total_goal['total'] / $per_page);
 
     <?php if (isset($_SESSION['permissions']) && $_SESSION['permissions'] == 1): ?>
         <?php include('eve_add.php'); ?>
-    <?php endif; ?>
+    <?php endif; ?> 
 
     <script>
         function OpenFunc1() {
@@ -166,5 +166,6 @@ $total_pages_goal = ceil($total_goal['total'] / $per_page);
             OpenFunc1();
         }
     </script>
+    <script src="123.js"></script>
 </body>
 </html>

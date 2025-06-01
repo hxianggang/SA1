@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 打開表單
-    function openForm() {
+    window.openForm = function() {
         document.getElementById("formContainer").style.display = "block";
     }
 
     // 關閉表單(新增提議，下方選擇)
-    function closeForm(clear = false) {
+    window.closeForm = function (clear = false) {
         document.getElementById("formContainer").style.display = "none";
         if (clear) {
             document.getElementById('suggestionForm').reset(); // 清空表單
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // 使用者選擇保留
             closeForm(false);
         }
-    }
-
+    } 
+ 
     function openForm2() {
         document.getElementById("formContainer2").style.display = "block";
     }

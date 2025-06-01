@@ -27,7 +27,7 @@ if (!isset($_SESSION['name'])) {
         <button type="button" onclick="confirmCancel()">取消</button>
     </form>
 </div>
-
+ 
 <?php
 ob_end_flush();
 ?>
