@@ -17,6 +17,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
+    z-index: 100;
 }
 
 /* ================= header：功能列 ================= */
@@ -107,7 +108,7 @@ body {
     text-align: center;
     font-family: '微軟正黑體', arial;
     z-index: 99999;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 #logout-confirm p {
@@ -217,7 +218,7 @@ body {
     display: flex;
 }
 
-.index_main-news-title_func{
+.index_main-news-title_func {
     width: 12%;
     height: 100%;
     display: flex;
@@ -226,11 +227,11 @@ body {
     transition: all .3s;
 }
 
-.index_main-news-title_func:hover{
+.index_main-news-title_func:hover {
     color: var(--orange1);
 }
 
-.index_main-news-title_func.open{
+.index_main-news-title_func.open {
     width: 12%;
     height: 100%;
     display: flex;
@@ -1015,7 +1016,7 @@ body {
     padding-left: 10px;
 }
 
-.eve_post_but{
+.eve_post_but {
     background-color: var(--orange1);
     font-size: 20px;
     border: none;
@@ -1027,7 +1028,8 @@ body {
 .eve_post_but_disabled {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #d3d3d3; /* 淺灰色 */
+    background-color: #d3d3d3;
+    /* 淺灰色 */
     color: #555;
     border-radius: 4px;
     font-size: 16px;
@@ -1035,21 +1037,21 @@ body {
     cursor: default;
     border: none;
     user-select: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.aud-form{
+.aud-form {
     display: flex;
     flex-direction: column;
     font-size: 16px;
     font-weight: 600;
 }
 
-.aud-form-radio{
+.aud-form-radio {
     accent-color: var(--orange1);
 }
 
-.aud-form-text{
+.aud-form-text {
     border: 1px solid #333;
     border-radius: 5px;
     height: 100px;
@@ -1057,26 +1059,26 @@ body {
     resize: none;
 }
 
-.aud-form-text:focus{
+.aud-form-text:focus {
     outline: none;
     border: 1px solid var(--orange1);
 }
 
-.form-date{
+.form-date {
     width: 50%;
 }
 
-.fun-mess-left{
+.fun-mess-left {
     width: 50%;
     height: 100%;
 }
 
-.fun-mess-mid{
+.fun-mess-mid {
     width: 30%;
     height: 100%;
 }
 
-.fun-mess-right{
+.fun-mess-right {
     width: 20%;
     height: 100%;
     display: flex;
