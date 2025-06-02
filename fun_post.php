@@ -31,7 +31,19 @@
                 </div>
 
                 <!--內文-->
-                <div class="message-info"><?php echo $row['f_content']; ?></div>
+                <div class="message-info">
+                    <?php echo $row['f_content']; ?>
+                </div>
+                <div class="message-info">
+                    <?php
+                    if ($row['f_cate'] == 1){
+                        echo "學務處：02-2905-3174";
+                    }else if ($row['f_cate'] == 2){
+                        echo "教務處：02-2905-2217";
+                    }else {
+                        echo "02-2905-2000";
+                    }?>
+                </div>
             </div>
 
             <!--之後可以放募資消息-->

@@ -95,6 +95,19 @@ $total_pages = ceil($total_result['total'] / $per_page);
             <?php include('eve_add.php'); ?>
         <?php endif; ?>
 
-        <script src="123.js"></script>
+        <script>
+            function openForm() {
+                document.getElementById("formContainer").style.display = "block";
+            }
+            function closeForm() {
+                document.getElementById("formContainer").style.display = "none";
+            }
+            function openForm2(id) {
+                document.getElementById("formContainer2_" + id).style.display = "block";
+            }
+            function closeForm2(id) {
+                document.getElementById("formContainer2_" + id).style.display = "none";
+            }
+        </script>
     </body>
 </html>

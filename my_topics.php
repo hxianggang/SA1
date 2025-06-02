@@ -68,8 +68,8 @@ $result = mysqli_query($conn, $sql);
     <div class="mytopics_sidebar">
         <h2 class="mytopics_sidebar_title">個人中心</h2>
         <a href="self.php" class="mytopics_sidebar_link">個人設置</a>
-        <a href="view_voted_topics.php" class="mytopics_sidebar_link">查看已投票議題</a>
         <a href="my_topics.php" class="mytopics_sidebar_link">我的議題</a>
+        <a href="view_voted_topics.php" class="mytopics_sidebar_link">查看已投票議題</a>
     </div>
 
     <!-- 右側內容區域 -->

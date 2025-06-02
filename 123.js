@@ -58,3 +58,19 @@ function OpenFunc2() {
     document.getElementById("in_progress_area").style.display = "none";
     document.getElementById("reached_goal_area").style.display = "flex";
 }
+
+// 顯示登出確認彈窗
+function showLogoutConfirm() {
+    document.getElementById('logout-confirm').style.display = 'block';
+}
+
+// 關閉登出確認彈窗
+function closeLogoutConfirm() {
+    document.getElementById('logout-confirm').style.display = 'none';
+}
+
+// 登出
+function logout() {
+    // 清除 session 並重新導向到登錄頁面
+    window.location.href = 'logout.php';
+}

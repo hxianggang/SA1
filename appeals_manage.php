@@ -244,7 +244,7 @@ if ($view_id > 0) {
                         </form>
                     </div>
                 <?php else: ?>
-                    <p>請點選上方申訴列表查看詳細內容。</p>
+                    <p>請點選左方申訴列表查看詳細內容。</p>
                 <?php endif; ?>
             </div>
         </div>

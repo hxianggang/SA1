@@ -76,7 +76,7 @@ $is_logged_in = isset($_SESSION['name']);
             window.location.href = 'logout.php';
         }
     </script>
- 
+
 </body>
 
 </html>

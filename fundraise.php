@@ -165,7 +165,36 @@ $total_pages_goal = ceil($total_goal['total'] / $per_page);
         } else {
             OpenFunc1();
         }
+        
+
+        function openForm2(id) {
+            document.getElementById("formContainer2_" + id).style.display = "block";
+        }
+        function closeForm2(id) {
+            document.getElementById("formContainer2_" + id).style.display = "none";
+        }
+        function openForm3(id) {
+            document.getElementById("formContainer3_" + id).style.display = "block";
+        }
+        function closeForm3(id) {
+            document.getElementById("formContainer3_" + id).style.display = "none";
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        // 打開表單
+        function openForm() {
+            document.getElementById("formContainer").style.display = "block";
+        }
+
+        // 關閉表單
+        function closeForm() {
+            document.getElementById("formContainer").style.display = "none";
+        }
+
+        // 在全局範圍內暴露 `openForm` 和 `closeForm` 函數
+        window.openForm = openForm;
+        window.closeForm = closeForm;
+        });
     </script>
-    <script src="123.js"></script>
 </body>
 </html>

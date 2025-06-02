@@ -8,7 +8,7 @@ if (!isset($_SESSION['name'])) {
 include("db.php");
 include("header.php");
 
-$account = $_SESSION['name'];
+$account = $_SESSION['acc'];
 $warning = "";
 $success = "";
 
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $stmt = $conn->prepare("SELECT accounts, gmail FROM user WHERE accounts=?");
-$stmt->bind_param("i", $account);
+$stmt->bind_param("s", $account);  // ← 改成 s 表示文字
 $stmt->execute();
 $stmt->bind_result($accounts, $gmail);
 $stmt->fetch();
@@ -60,14 +60,14 @@ $stmt->close();
     <div class="self_sidebar">
         <h2>個人中心</h2>
         <a href="self.php">個人設置</a>
-        <a href="view_voted_topics.php">查看已投票議題</a>
         <a href="my_topics.php">我的議題</a>
+        <a href="view_voted_topics.php">查看已投票議題</a>
     </div>
 
     <!-- 右側內容區域 -->
     <div class="self_container">
-        <div class="self_row"><span class="self_label">學號:</span><span class="self_value"><?= htmlspecialchars($accounts) ?></span></div>
-        <div class="self_row"><span class="self_label">信箱:</span><span class="self_value"><?= htmlspecialchars($gmail) ?></span><button class="self_action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
+        <div class="self_row"><span class="self_label">學號:</span><span class="self_value"><?php echo htmlspecialchars($accounts); ?></span></div>
+        <div class="self_row"><span class="self_label">信箱:</span><span class="self_value"><?php echo htmlspecialchars($gmail); ?></span><button class="self_action-button" onclick="document.getElementById('gmailModal').style.display='block'">修改</button></div>
         <div class="self_row"><span class="self_label">密碼:</span><span class="self_value">●●●●●●●●</span><button class="self_action-button" onclick="document.getElementById('passwordModal').style.display='block'">修改</button></div>
     </div>
 
