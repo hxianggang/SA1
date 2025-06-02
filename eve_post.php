@@ -141,37 +141,57 @@
                         $result3 = mysqli_query($conn, $sql3);
                         $row3 = mysqli_fetch_assoc($result3);
 
-                        // if (mysqli_num_rows($result2) === 0) {
-                            $eventDate = new DateTime($row['e_time']);
-                            $now = new DateTime();
-                            $interval = $eventDate->diff($now);
-                            $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
-
-                            if (!$isOverThreeMonths && !isset($row3['situation'])) {
-                                if (mysqli_num_rows($result2) == 0) {
-                                    // 尚未投過票：顯示附議按鈕
+                        $eventDate = new DateTime($row['e_time']);
+                        $now = new DateTime();
+                        $interval = $eventDate->diff($now);
+                        $isOverThreeMonths = ($interval->m + $interval->y * 12) >= 3;
+                        if (!$isOverThreeMonths && !isset($row3['situation'])) {
+                            if (mysqli_num_rows($result2) == 0) {
+                                // 尚未投過票：顯示附議按鈕
                     ?>
-                                    <form id="suggestionForm" method="POST" action="vot_process_add.php">
-                                        <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>">
-                                        <button class="eve_post_but" type="submit">附議</button>
-                                    </form>
-                            <?php
-                                } else {
-                                    // 已投過票：顯示灰色提示框
-                            ?>
-                                    <div class="eve_post_but_disabled">已附議</div>
-                            <?php
-                                }
-                            // }
+                            <form id="suggestionForm" method="POST" action="vot_process_add.php">
+                                <input type="hidden" id="e_id" name="e_id" required value="<?php echo htmlspecialchars($e_id); ?>">
+                                <button class="eve_post_but" type="submit">附議</button>
+                                </form>
+                        <?php
+                            } else {
+                                // 已投過票：顯示灰色提示框
+                        ?>
+                                <div class="eve_post_but_disabled" onclick="confirmUnvote('<?php echo $e_id; ?>, this')">已附議</div>
+                        <?php
+                            }
                         }     
                     }     
                     ?>
+
                 </div>
             </div>
         </main>
 
     <?php } 
     ?>
+        <script>
+            function confirmUnvote(e_id, element) {
+    const confirmed = confirm("你確定要取消附議嗎？");
+
+    if (confirmed) {
+        fetch('unvote_process.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'e_id=' + encodeURIComponent(e_id)
+        }).then(() => {
+            // 無論結果是成功或失敗，都重新整理頁面
+            location.reload();
+        }).catch((error) => {
+            console.error('錯誤:', error);
+            location.reload(); // 即使出錯也刷新，讓資料同步
+        });
+    }
+}
+
+        </script>
 
     <script src="../php_test/js/setting.js"></script>
 </body>
