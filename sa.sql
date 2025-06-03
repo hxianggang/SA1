@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-06-01 04:39:02
+-- 產生時間： 2025-06-03 07:28:14
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.1.25
 
@@ -36,6 +36,18 @@ CREATE TABLE `announcements` (
   `accounts` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- 傾印資料表的資料 `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `title`, `content`, `date`, `created_at`, `accounts`) VALUES
+(52, '公告6', '公告6', '2025-06-02 15:06:27', '2025-06-02 13:06:47', 8),
+(53, '公告5', '公告5', '2025-06-02 15:07:22', '2025-06-02 13:07:38', 8),
+(54, '公告4', '公告4', '2025-06-02 15:09:07', '2025-06-02 13:09:18', 9),
+(55, '公告3', '公告3', '2025-06-02 15:09:20', '2025-06-02 13:09:34', 8),
+(56, '公告2', '公告2', '2025-06-02 15:09:36', '2025-06-02 13:09:49', 8),
+(57, '公告1', '公告1', '2025-06-02 15:09:53', '2025-06-02 13:10:03', 9);
+
 -- --------------------------------------------------------
 
 --
@@ -58,7 +70,8 @@ CREATE TABLE `appeals` (
 --
 
 INSERT INTO `appeals` (`appeal_id`, `e_id`, `accounts`, `appeal_text`, `appeal_date`, `status`, `reply_text`, `reply_date`) VALUES
-(5, 48, 1, '123', '2025-06-01 10:25:30', 'pending', NULL, NULL);
+(5, 48, 1, '123', '2025-06-01 10:25:30', 'rejected', 'ugiiuyiuy', NULL),
+(6, 51, 1, '我覺得不行', '2025-06-03 00:32:33', 'resolved', '誰理你啊', NULL);
 
 -- --------------------------------------------------------
 
@@ -79,7 +92,11 @@ CREATE TABLE `audit` (
 --
 
 INSERT INTO `audit` (`a_id`, `e_id`, `situation`, `reason`, `a_acc`) VALUES
-(34, 48, 2, 'uyj', 8);
+(34, 48, 2, 'uyj', 8),
+(35, 50, 4, '3', 8),
+(36, 53, 2, '但是我拒絕', 8),
+(37, 52, 5, '我覺得可以', 8),
+(38, 51, 2, '申訴測試', 8);
 
 -- --------------------------------------------------------
 
@@ -102,7 +119,13 @@ CREATE TABLE `event` (
 
 INSERT INTO `event` (`e_id`, `e_title`, `e_text`, `e_time`, `accounts`, `e_type`) VALUES
 (48, '123', '123', '2025-06-01 10:24:52', 1, 1),
-(49, '234', '234', '2025-06-01 10:29:35', 1, 0);
+(49, '234', '234', '2025-06-01 10:29:35', 1, 0),
+(50, '3', '3', '2025-06-01 22:03:58', 1, 1),
+(51, '測試', '測試', '2025-06-02 21:45:00', 1, 1),
+(52, 'test2', '2', '2025-06-02 22:09:56', 2, 1),
+(53, 'test3', '3', '2025-06-02 22:10:02', 2, 1),
+(54, '123', '123', '2025-06-03 02:17:27', 1, 0),
+(55, 'erg', 'gg', '2025-06-03 02:20:14', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -121,6 +144,13 @@ CREATE TABLE `fundraising` (
   `f_cate` int(100) NOT NULL,
   `f_type` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 傾印資料表的資料 `fundraising`
+--
+
+INSERT INTO `fundraising` (`f_id`, `e_id`, `f_title`, `f_content`, `f_now`, `f_goal`, `f_date`, `f_cate`, `f_type`) VALUES
+(10, 52, '測試', '這是修改後的內文', 0, 123456, '2025-07-04 00:00:00', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -172,10 +202,7 @@ INSERT INTO `user` (`accounts`, `gmail`, `password`, `permissions`, `name`) VALU
 (1, '1@1', '$2y$10$HaiZs4ZxsS2QCEBehOX/JORW0PhoZV2Q1ygXP52qamf4AWT7wtJ/G', '1', '1'),
 (2, '2@2', '$2y$10$0XLvGsGAnd9PA0UfjFCkBOrDd95DBcVfxXf3.2j0DeD1n9llaaRDi', '1', '2'),
 (8, '8@8', '$2y$10$OFar6SNf1aypk2X0KBR.XOadLXzKjlp.ZJLUpqZO0lYyv/zKmwwoK', '2', '8'),
-(123, '123', '123', '1', '爆豪勝己'),
-(234, '234', '234', '1', '綠谷出久'),
-(456, '456', '456', '2', '相澤消太'),
-(567, '567', '567', '2', '歐爾麥特');
+(9, '9@9', '$2y$10$StqqIjLkaMkEG3NrvtwzdOHJw704xVwB/I8A0AJ0IGB/smv/d2n/2', '2', '9');
 
 -- --------------------------------------------------------
 
@@ -188,13 +215,6 @@ CREATE TABLE `vote` (
   `e_id` int(50) NOT NULL COMMENT '文章編號',
   `v_stu` int(50) NOT NULL COMMENT '學號'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 傾印資料表的資料 `vote`
---
-
-INSERT INTO `vote` (`v_id`, `e_id`, `v_stu`) VALUES
-(26, 49, 1);
 
 --
 -- 已傾印資料表的索引
@@ -273,43 +293,43 @@ ALTER TABLE `vote`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `appeals`
 --
 ALTER TABLE `appeals`
-  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `appeal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `audit`
 --
 ALTER TABLE `audit`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `event`
 --
 ALTER TABLE `event`
-  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `e_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `fundraising`
 --
 ALTER TABLE `fundraising`
-  MODIFY `f_id` int(50) NOT NULL AUTO_INCREMENT COMMENT '時間序位', AUTO_INCREMENT=10;
+  MODIFY `f_id` int(50) NOT NULL AUTO_INCREMENT COMMENT '時間序位', AUTO_INCREMENT=11;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `log`
 --
 ALTER TABLE `log`
-  MODIFY `l_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=16;
+  MODIFY `l_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=19;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=27;
+  MODIFY `v_id` int(100) NOT NULL AUTO_INCREMENT COMMENT '流水號', AUTO_INCREMENT=28;
 
 --
 -- 已傾印資料表的限制式
