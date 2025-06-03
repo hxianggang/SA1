@@ -1,6 +1,6 @@
 <?php
 include('db.php');
-session_start();
+//session_start();
 $error_message = ""; // 初始化錯誤訊息變數
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
